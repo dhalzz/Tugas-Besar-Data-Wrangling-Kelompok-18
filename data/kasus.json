@@ -1,0 +1,140 @@
+[
+ {
+  "no": 1,
+  "paket": "k01-kerawanan-pangan.zip",
+  "judul": "Kerawanan pangan provinsi",
+  "klaster": "A. Pangan dan kesehatan"
+ },
+ {
+  "no": 2,
+  "paket": "k02-kematian-anak-ibu.zip",
+  "judul": "Kematian anak dan ibu",
+  "klaster": "A. Pangan dan kesehatan"
+ },
+ {
+  "no": 3,
+  "paket": "k03-kesehatan-reproduksi-remaja.zip",
+  "judul": "Kesehatan reproduksi remaja",
+  "klaster": "A. Pangan dan kesehatan"
+ },
+ {
+  "no": 4,
+  "paket": "k04-penyakit-faktor-risiko.zip",
+  "judul": "Penyakit menular dan faktor risiko",
+  "klaster": "A. Pangan dan kesehatan"
+ },
+ {
+  "no": 5,
+  "paket": "k05-layanan-tenaga-kesehatan.zip",
+  "judul": "Akses layanan dan tenaga kesehatan",
+  "klaster": "A. Pangan dan kesehatan"
+ },
+ {
+  "no": 6,
+  "paket": "k06-melek-aksara.zip",
+  "judul": "Melek aksara",
+  "klaster": "B. Pendidikan"
+ },
+ {
+  "no": 7,
+  "paket": "k07-partisipasi-lama-sekolah.zip",
+  "judul": "Partisipasi pendidikan tinggi dan lama sekolah",
+  "klaster": "B. Pendidikan"
+ },
+ {
+  "no": 8,
+  "paket": "k08-kesetaraan-pendidikan.zip",
+  "judul": "Kesetaraan dan penyelesaian pendidikan",
+  "klaster": "B. Pendidikan"
+ },
+ {
+  "no": 9,
+  "paket": "k09-tik-paud.zip",
+  "judul": "Keterampilan TIK dan pendidikan anak usia dini",
+  "klaster": "B. Pendidikan"
+ },
+ {
+  "no": 10,
+  "paket": "k10-kesetaraan-gender.zip",
+  "judul": "Kesetaraan gender",
+  "klaster": "C. Gender dan ketenagakerjaan"
+ },
+ {
+  "no": 11,
+  "paket": "k11-pengangguran.zip",
+  "judul": "Pengangguran terbuka",
+  "klaster": "C. Gender dan ketenagakerjaan"
+ },
+ {
+  "no": 12,
+  "paket": "k12-upah-informalitas.zip",
+  "judul": "Upah dan pekerjaan informal",
+  "klaster": "C. Gender dan ketenagakerjaan"
+ },
+ {
+  "no": 13,
+  "paket": "k13-pemuda-pekerja-anak.zip",
+  "judul": "Pemuda NEET dan pekerja anak",
+  "klaster": "C. Gender dan ketenagakerjaan"
+ },
+ {
+  "no": 14,
+  "paket": "k14-produktivitas-industri.zip",
+  "judul": "Produktivitas tenaga kerja dan industri",
+  "klaster": "C. Gender dan ketenagakerjaan"
+ },
+ {
+  "no": 15,
+  "paket": "k15-daerah-tertinggal.zip",
+  "judul": "Kemiskinan di daerah tertinggal",
+  "klaster": "D. Kemiskinan dan ketimpangan"
+ },
+ {
+  "no": 16,
+  "paket": "k16-ketimpangan-layanan-dasar.zip",
+  "judul": "Ketimpangan, layanan dasar, dan keuangan daerah",
+  "klaster": "D. Kemiskinan dan ketimpangan"
+ },
+ {
+  "no": 17,
+  "paket": "k17-air-sanitasi.zip",
+  "judul": "Air minum dan sanitasi",
+  "klaster": "E. Infrastruktur dan permukiman"
+ },
+ {
+  "no": 18,
+  "paket": "k18-energi.zip",
+  "judul": "Akses listrik dan bahan bakar bersih",
+  "klaster": "E. Infrastruktur dan permukiman"
+ },
+ {
+  "no": 19,
+  "paket": "k19-hunian-transportasi.zip",
+  "judul": "Hunian layak, transportasi, dan logistik",
+  "klaster": "E. Infrastruktur dan permukiman"
+ },
+ {
+  "no": 20,
+  "paket": "k20-hutan-lahan-lingkungan.zip",
+  "judul": "Hutan, lahan, dan kualitas lingkungan",
+  "klaster": "F. Lingkungan dan tata kelola"
+ },
+ {
+  "no": 21,
+  "paket": "k21-keamanan-pencatatan-sipil.zip",
+  "judul": "Keamanan dan pencatatan sipil",
+  "klaster": "F. Lingkungan dan tata kelola"
+ },
+ {
+  "no": 22,
+  "paket": "k22-korban-bencana.zip",
+  "judul": "Korban bencana",
+  "klaster": "G. Bencana (BNPB)"
+ },
+ {
+  "no": 23,
+  "paket": "k23-kerusakan-kerugian-bencana.zip",
+  "judul": "Kerusakan dan kerugian akibat bencana",
+  "klaster": "G. Bencana (BNPB)"
+ }
+]
