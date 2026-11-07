@@ -1,2 +1,2 @@
-id,tanggal,nim,tahap,seri_kode,keputusan,alternatif_ditolak,alasan,dampak_baris
-K-001,2026-11-03,12345678,silver,var543,"periode bulanan Februari/Agustus disimpan sebagai jenis_periode=bulan","rata-rata ke tahunan","sumber menerbitkan dua kali setahun; agregasi dilakukan di Gold",0
+id,tanggal,nim,tahap,seri_kode,keputusan,alternatif_ditolak,alasan,dampak_baris;
+"K-001,2026-11-07,124450008,silver,001,""Semua wilayah dipetakan ke 38 provinsi menurut kode wilayah BPS terbaru; Papua dan Papua Barat data lama dialokasikan ulang ke 6 provinsi hasil pemekaran; nama provinsi distandarkan"",""Tetap memakai 34 provinsi; menghapus baris yang tidak bisa dialokasikan"",""Pembagian administratif terkini adalah 38 provinsi, dan semua seri harus bisa dibandingkan dengan satu acuan wilayah"",JUMLAH_BARIS";" agregasi dilakukan di Gold"",0"
