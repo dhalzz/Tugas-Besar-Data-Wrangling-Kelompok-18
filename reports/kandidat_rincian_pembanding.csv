@@ -1,0 +1,7 @@
+﻿kode_indikator,rincian,status_observasi,status_kandidat,alasan
+EG.ELC.ACCS.ZS,Nasional,Tersedia,Kandidat pembanding konseptual,"Sama-sama berkaitan dengan akses listrik, tetapi WDI mengukur persentase penduduk yang memiliki akses listrik, sedangkan var87 mengukur persentase rumah tangga dengan sumber penerangan utama listrik PLN."
+EG.ELC.ACCS.UR.ZS,Perkotaan,Tersedia,Konteks tambahan,Menggambarkan akses listrik penduduk perkotaan. Var87 tidak memiliki rincian perkotaan sehingga tidak dapat dicocokkan secara langsung.
+EG.ELC.ACCS.RU.ZS,Perdesaan,Tersedia,Konteks tambahan,Menggambarkan akses listrik penduduk perdesaan. Var87 tidak memiliki rincian perdesaan sehingga tidak dapat dicocokkan secara langsung.
+EG.CFT.ACCS.ZS,Nasional,Tersedia,Bukan pembanding langsung,"Mengukur penggunaan bahan bakar dan teknologi memasak bersih, bukan akses listrik atau sumber penerangan."
+EG.CFT.ACCS.UR.ZS,Perkotaan,Metadata tersedia; observasi belum ditemukan,Bukan pembanding langsung,Mengukur penggunaan bahan bakar memasak bersih penduduk perkotaan. Konsepnya berbeda dari var87 dan observasi belum ditemukan dalam file yang diperiksa.
+EG.CFT.ACCS.RU.ZS,Perdesaan,Metadata tersedia; observasi belum ditemukan,Bukan pembanding langsung,Mengukur penggunaan bahan bakar memasak bersih penduduk perdesaan. Konsepnya berbeda dari var87 dan observasi belum ditemukan dalam file yang diperiksa.
