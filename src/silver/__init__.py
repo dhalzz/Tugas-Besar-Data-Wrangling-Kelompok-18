@@ -1,11 +1,30 @@
-"""Tahap 2–4 — Profil, pembersihan, dan penyeragaman ke Silver (pertemuan II–VII). Milik tim.
+﻿"""Tahap Silver: penyusunan dan penyimpanan data Silver."""
 
-Keluaran: data/silver/silver.parquet dengan skema minimal di src/common/skema.py.
-Satu baris = satu seri x wilayah x periode x rincian x berkas sumber. Nilai dari sumber berbeda
-TIDAK digabung di sini. Setiap keputusan pembersihan dicatat di log-keputusan.csv.
-"""
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+from src.silver import grid
+
+SILVER = ROOT / "data" / "silver" / "silver.parquet"
 
 
 def jalankan(mentah):
-    """Terima keluaran tahap 1, tulis dan kembalikan DataFrame Silver."""
-    raise NotImplementedError("Tahap 2–4: profil, missing, outlier/patahan, duplikat, format periode dan wilayah")
+    dim, mulai = grid.muat_referensi()
+
+    silver = grid.silver_minimal(dim)
+    # Perbaiki lineage data listrik berdasarkan sumber raw yang terdaftar di MANIFEST
+    mask_listrik = silver["seri_kode"] == "var87"
+
+    silver.loc[mask_listrik, "_berkas_raw"] = (
+        "bps/2026-10-17/json/sdg7_listrik_pln.json"
+    )
+
+    silver.loc[mask_listrik, "_sha256_raw"] = (
+        "88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e"
+    )
+    SILVER.parent.mkdir(parents=True, exist_ok=True)
+    silver.to_parquet(SILVER, index=False)
+
+    print(f"Silver: {len(silver):,} baris -> {SILVER.relative_to(ROOT)}")
+
+    return silver
