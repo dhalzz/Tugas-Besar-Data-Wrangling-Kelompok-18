@@ -1,5 +1,12 @@
-{
+﻿{
   "metrik": {
+    "berkas_dibaca": 9,
+    "baris_mentah": 10009,
+    "format": 2,
+    "baris_silver": 6252,
+    "sel_kosong_grid": 71,
+    "tahun_tidak_diterbitkan": 1228,
+    "outlier_ditandai": 0,
     "pasangan_rekonsiliasi": 2,
     "periode_beririsan": 47
   },
