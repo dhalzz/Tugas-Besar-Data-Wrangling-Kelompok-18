@@ -1,7 +1,8 @@
 {
   "metrik": {
-    "berkas_terverifikasi": 9,
-    "seri_target": 4,
+    "berkas_dibaca": 9,
+    "baris_mentah": 10009,
+    "format": 2,
     "baris_silver": 6252,
     "sel_kosong_grid": 71,
     "tahun_tidak_diterbitkan": 1228,
@@ -9,5 +10,5 @@
   },
   "seed": 0,
   "data_hash": "df25bcab9a80e523135ae39394f105fc94c726c22e8c42779f102f50983ab52c",
-  "perangkat": "Windows AMD64 Python 3.14.5"
+  "perangkat": "Windows AMD64 Python 3.13.7"
 }
