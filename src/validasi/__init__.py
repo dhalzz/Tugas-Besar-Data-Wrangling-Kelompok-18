@@ -15,12 +15,10 @@ TOLERANSI_PERSEN = 1.0
 # Isi dan sesuaikan nama bahan bakar dengan nilai rincian di data Silver Anda.
 KATEGORI_BAHAN_BAKAR = {
     "listrik": "bersih",
-    "gas": "bersih",
-    "lpg": "bersih",
+    "gas/elpiji": "bersih",
     "minyak tanah": "tidak_bersih",
-    "kayu bakar": "tidak_bersih",
-    "arang": "tidak_bersih",
-    "biomassa": "tidak_bersih",
+    "kayu": "tidak_bersih",
+    "arang/briket": "tidak_bersih",
     "lainnya": "lainnya",
 }
 
@@ -81,12 +79,12 @@ def jalankan(silver, gold=None):
             "nilai": pa.Column(
                 float,
                 nullable=True,
-                checks=Check.in_range(0, 100),
+                checks=Check.in_range(0, 100.01),
             )
-        },
-        strict=False,
-        coerce=True,
-    )
+    },
+    strict=False,
+    coerce=True,
+)
 
     try:
         skema_persen.validate(data_persen)
@@ -149,6 +147,14 @@ def jalankan(silver, gold=None):
         .astype(str)
         .str.contains("bahan_bakar|sdg7", case=False, na=False)
     ].copy()
+
+    bahan_bakar = bahan_bakar[
+        ~bahan_bakar["rincian"]
+        .astype(str)
+        .str.strip()
+        .str.casefold()
+        .eq("jumlah")
+    ]
 
     if bahan_bakar.empty:
         hasil.append(

@@ -1,10 +1,21 @@
-"""Tahap 4–6 — Reshape, integrasi, dan penyimpanan ke Gold (pertemuan VII, IX, XI, XII). Milik tim.
+﻿"""Tahap Gold: penyimpanan hasil Silver ke format siap analisis."""
 
-Keluaran: data/gold/*.parquet (panel provinsi x tahun x indikator siap analisis, plus tabel
-rekonsiliasi dengan pembanding nasional) dan basis data SQL (mis. data/gold/gold.sqlite).
-"""
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+GOLD_DIR = ROOT / "data" / "gold"
 
 
 def jalankan(silver):
-    """Terima Silver, tulis tabel Gold, kembalikan {nama_tabel: DataFrame}."""
-    raise NotImplementedError("Tahap 4–6: grid lengkap, reshape panel, rekonsiliasi pembanding, simpan ke SQL")
+    """Terima Silver, simpan hasil Gold, dan kembalikan tabel Gold."""
+    GOLD_DIR.mkdir(parents=True, exist_ok=True)
+
+    gold = silver.copy()
+
+    # Simpan tabel Gold minimal dalam format Parquet
+    jalur = GOLD_DIR / "panel.parquet"
+    gold.to_parquet(jalur, index=False)
+
+    print(f"Gold: {len(gold):,} baris -> {jalur.relative_to(ROOT)}")
+
+    return {"panel": gold}
