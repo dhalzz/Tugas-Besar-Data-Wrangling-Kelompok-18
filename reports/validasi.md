@@ -1,10 +1,11 @@
-# Laporan Validasi
+# Laporan Validasi Silver
 
-Jumlah baris Silver: 4,830
-Jumlah kolom Silver: 11
-PASS: Kolom wajib Silver tersedia
-PASS: Lineage berkas raw lengkap
-PASS: SHA256 tersedia
-Jumlah tabel Gold: 1
-Tabel Gold 'panel': 4,830 baris
-PASS: Tabel Gold 'panel' tidak kosong
+Dibuat otomatis saat `python pipeline.py` dijalankan.
+
+| Aturan | Hasil | Keterangan |
+|---|---|---|
+| Nilai persen berada pada rentang 0--100 | Lolos | 4830 observasi diperiksa. |
+| Kunci observasi Silver unik | Lolos | 0 baris duplikat ditemukan. |
+| Satuan seri konsisten | Lolos | Semua satuan adalah persen. |
+| Total bahan bakar per provinsi-tahun mendekati 100 | Lolos | 545 grup lengkap diperiksa; 0 grup meleset lebih dari ±1.0; 0 grup dikecualikan karena nilai kosong. |
+| Setiap jenis bahan bakar memiliki satu kategori | Lolos | 6 jenis bahan bakar diperiksa. |
