@@ -38,9 +38,15 @@ _berkas_raw     : bps/2026-10-17/sdg7_bahan_bakar.csv
 _sha256_raw     : hash yang cocok dengan MANIFEST.csv
 ```
 
-## data/gold/<tabel>.parquet
-Kolom Gold akan dilengkapi pada Sprint 2–3 setelah tabel Gold dibuat.
+## data/gold/panel.parquet
 
+Tabel Gold merupakan hasil akhir pembentukan panel provinsi × tahun × indikator.
+Data disimpan dalam bentuk Parquet dengan total 2.682 baris.
+
+Indikator yang dimuat:
+- `elektrifikasi`: persentase rumah tangga yang memiliki akses listrik.
+- `bahan_bakar_bersih`: persentase rumah tangga dengan bahan bakar utama memasak yang termasuk kategori bersih.
+- `bahan_bakar_tidak_bersih`: persentase rumah tangga dengan bahan bakar utama memasak yang termasuk kategori tidak bersih.
 
 ## Aturan pembentukan Gold — Tahap 4
 
@@ -51,6 +57,7 @@ Gold disimpan dalam bentuk panjang (*long format*). Satu baris mewakili satu pro
 Indikator yang dimuat:
 - `elektrifikasi`: persentase rumah tangga yang memiliki akses listrik.
 - `bahan_bakar_bersih`: persentase rumah tangga dengan bahan bakar utama memasak yang termasuk kategori bersih.
+- `bahan_bakar_tidak_bersih`: persentase rumah tangga dengan bahan bakar utama memasak yang termasuk kategori tidak bersih.
 
 Kunci unik Gold:
 `wilayah_kode × periode × indikator`
@@ -58,11 +65,11 @@ Kunci unik Gold:
 ### 2. Aturan pemilihan snapshot
 
 - Snapshot harus berasal dari berkas sumber yang tercatat dalam MANIFEST.
-- Jika tersedia beberapa snapshot untuk kunci observasi yang sama, Gold menggunakan snapshot bertanggal paling baru setelah pemeriksaan validitas sumber.
-- Jika nilai sama pada beberapa snapshot, satu observasi dipilih dan sisanya dicatat sebagai baris yang tidak terpilih.
-- Jika nilai berbeda, perbedaan diperlakukan sebagai revisi. Gold memilih snapshot terbaru, sedangkan riwayat revisi tetap dipertahankan di Silver.
-- Jika tanggal snapshot tidak dapat ditentukan atau terdapat konflik yang tidak dapat diselesaikan, proses Gold harus gagal dengan pesan yang jelas.
-- Kondisi saat ini: hanya tersedia satu snapshot BPS bertanggal 2026-10-17 sehingga belum ada perbandingan revisi antar-snapshot.
+- Jika tersedia beberapa snapshot untuk kunci observasi yang sama, Gold memilih snapshot dengan tanggal terbaru berdasarkan tanggal yang tercantum pada `_berkas_raw`.
+- Jika tanggal snapshot sama, `_berkas_raw` digunakan sebagai pengurutan tambahan secara alfabetis menurun agar pemilihan bersifat deterministik.
+- Baris yang tidak terpilih tetap dipertahankan di Silver dan jumlahnya dicatat dalam `log-keputusan.csv`.
+- Pemilihan snapshot dilakukan sebelum agregasi bahan bakar.
+- Kondisi saat ini: hanya tersedia satu snapshot BPS bertanggal 2026-10-17 sehingga belum ada perbandingan revisi antar-snapshot. Perbedaan nilai antar-snapshot belum diuji pada data saat ini.
 
 ### 3. Aturan rincian bahan bakar
 
@@ -98,9 +105,10 @@ Agregasi hanya dilakukan jika seluruh rincian penyusun kategori tersedia. Nilai 
 - Nilai kandidat anomali tidak dihapus, dikoreksi, atau diinterpolasi.
 - Kandidat anomali listrik ditelusuri berdasarkan wilayah dan tahun.
 - Kandidat anomali bahan bakar ditelusuri berdasarkan wilayah, tahun, dan rincian bahan bakar.
-- Pada hasil agregasi, status kandidat anomali diteruskan jika salah satu rincian penyusun memiliki status kandidat anomali. Rincian sumbernya tetap dicatat.
+- Pada hasil agregasi, status kandidat anomali diteruskan jika salah satu rincian penyusun memiliki status kandidat anomali. Penandaan dilakukan pada tingkat indikator Gold dan tidak menghapus nilai komponennya.
 - Status pembanding tidak boleh dianggap sebagai kandidat anomali.
-- Tidak ada patahan seri nasional yang terkonfirmasi berdasarkan audit Sprint 1. Perubahan lokal yang belum diketahui penyebabnya tetap dipertahankan dan ditandai.
+- Tidak ada patahan seri nasional yang terkonfirmasi berdasarkan audit Sprint 1.
+- Gold menyimpan `status_patahan` dengan nilai `tidak_terkonfirmasi` dan catatan yang merujuk pada keputusan K-017. Perubahan lokal tetap dipertahankan dan tidak diklaim sebagai patahan yang telah terkonfirmasi.
 
 ### 6. Pencatatan keputusan
 
@@ -113,3 +121,26 @@ Setiap catatan harus mencantumkan:
 - jumlah baris Silver yang tidak terpilih.
 
 Fungsi pembentukan Gold berada di `src/gold/` dan dipanggil melalui `pipeline.py`.
+
+### Struktur kolom Gold
+
+| Nama kolom | Tipe data | Keterangan |
+|---|---|---|
+| `wilayah_kode` | Integer | Kode wilayah provinsi. |
+| `nama_wilayah` | String | Nama provinsi. |
+| `periode` | String | Tahun pengamatan. |
+| `indikator` | String | Jenis indikator: elektrifikasi, bahan bakar bersih, atau bahan bakar tidak bersih. |
+| `kategori` | String | Kategori indikator, yaitu listrik, bersih, atau tidak bersih. |
+| `nilai` | Float | Nilai indikator dalam satuan yang tercantum pada kolom satuan. |
+| `satuan` | String | Satuan pengukuran, yaitu persen (%). |
+| `jenis_periode` | String | Jenis periode pengamatan, yaitu tahun. |
+| `sebelum_provinsi_ada` | Boolean | Penanda periode sebelum provinsi terbentuk. |
+| `tahun_tidak_diterbitkan` | Boolean | Penanda tahun ketika data tidak diterbitkan. |
+| `sel_kosong_dalam_terbitan` | Boolean | Penanda sel kosong dalam publikasi sumber. |
+| `missing_sejati` | Boolean | Penanda nilai yang benar-benar tidak tersedia. |
+| `rincian_missing` | String | Rincian bahan bakar yang nilainya tidak tersedia pada agregasi. |
+| `status_patahan` | String | Status pemeriksaan patahan seri. |
+| `catatan_patahan` | String | Catatan mengenai hasil audit patahan seri. |
+| `outlier` | Boolean | Penanda kandidat anomali pada indikator Gold. |
+
+Total data Gold saat ini adalah 2.682 baris dengan tiga indikator, yaitu elektrifikasi, bahan bakar bersih, dan bahan bakar tidak bersih.
