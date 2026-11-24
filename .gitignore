@@ -7,3 +7,4 @@ data/LISENSI.md
 __pycache__/
 .ipynb_checkpoints/
 .venv/
+backup-hasil-pipeline/
