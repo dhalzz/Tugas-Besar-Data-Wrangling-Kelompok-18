@@ -1,7 +1,5 @@
 """Tabel nasional Gold (tugas #21): seri utama BPS dan pembanding WDI per periode."""
-import csv
 import pandas as pd
-from src.silver.grid import LOG, tulis_log
 
 KODE_NAS = 9999
 SERI_UTAMA = ["var87", "tabel:sdg7_bahan_bakar"]
@@ -69,37 +67,3 @@ def bangun_nasional(silver, mentah):
     gold = gold.sort_values(kunci, na_position="first").reset_index(drop=True)
     print(gold.groupby(["seri_kode", "asal_angka"]).size().to_string())
     return gold
-
-def catat_keputusan():
-    sudah = set()
-    if LOG.exists():
-        with open(LOG, encoding="utf-8") as f:
-            sudah = {r["keputusan"] for r in csv.DictReader(f)}
-    entri = [
-        dict(tanggal="2026-11-25", seri="var87+bahan_bakar(sdg7)",
-             keputusan="Tabel nasional Gold memakai baris INDONESIA (wilayah_kode 9999) kedua seri BPS; tanpa agregat provinsi.",
-             alternatif_ditolak="rata-rata sederhana atau tertimbang provinsi",
-             alasan="Kedua seri menerbitkan baris Indonesia pada setiap tahun terbit; persentase rumah tangga butuh bobot yang tidak ada di sumber. Dijaga oleh tes di pipeline.",
-             baris_terdampak="var87: 32 tahun; sdg7: 2001 dan 2007-2021"),
-        dict(tanggal="2026-11-25", seri="bahan_bakar(sdg7)",
-             keputusan="Baris rincian 'Jumlah' tidak masuk Gold; dipakai sebagai cek jumlah kategori ~100 (toleransi 0,05).",
-             alternatif_ditolak="memperlakukan Jumlah sebagai kategori",
-             alasan="Jumlah adalah total; selisih 100,01 pada 2020 adalah pembulatan.",
-             baris_terdampak="1 baris per tahun terbit"),
-        dict(tanggal="2026-11-25", seri="gold_nasional",
-             keputusan="Kunci Gold = periode x seri_kode x rincian; asal_angka membedakan baris_indonesia dan pembanding_wdi.",
-             alternatif_ditolak="satu baris per periode x seri tanpa rincian",
-             alasan="Seri bahan bakar punya 6 kategori per tahun.",
-             baris_terdampak="seluruh tabel Gold nasional"),
-        dict(tanggal="2026-11-25", seri="EG.ELC.ACCS.ZS+EG.CFT.ACCS.ZS",
-             keputusan="Baris WDI dengan value kosong tidak dimasukkan ke Gold nasional.",
-             alternatif_ditolak="memasukkan baris kosong; mengisi dari tahun tetangga",
-             alasan="Kosong di WDI berarti tidak ada estimasi, bukan nilai hilang di terbitan BPS; mengisinya mengarang angka.",
-             baris_terdampak="tahun WDI tanpa estimasi (dihitung saat pipeline dijalankan)"),
-        dict(tanggal="2026-11-25", seri="EG.ELC.ACCS.ZS+EG.CFT.ACCS.ZS",
-             keputusan="Pembanding dipasangkan: EG.ELC.ACCS.ZS dengan var87, EG.CFT.ACCS.ZS dengan sdg7_bahan_bakar; definisi tidak disamakan.",
-             alternatif_ditolak="menggabungkan kedua sumber menjadi satu seri",
-             alasan="WDI mengukur persentase penduduk dengan akses; basis hitung BPS belum diverifikasi sama. Gold hanya menyandingkan.",
-             baris_terdampak="seluruh baris pembanding_wdi"),
-    ]
-    tulis_log([e for e in entri if e["keputusan"] not in sudah])

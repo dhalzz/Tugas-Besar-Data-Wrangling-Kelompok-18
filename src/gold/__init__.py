@@ -17,11 +17,10 @@ def jalankan(silver, mentah=None):
     hasil = {"panel": gold}
 
     if mentah is not None:
-        from src.gold.nasional import bangun_nasional, catat_keputusan
+        from src.gold.nasional import bangun_nasional
         nas = bangun_nasional(silver, mentah)
         nas.to_parquet(GOLD_DIR / "tabel_nasional.parquet", index=False)
         nas.to_csv(GOLD_DIR / "tabel_nasional.csv", index=False)
-        catat_keputusan()
         print(f"Gold nasional: {len(nas):,} baris -> data/gold/tabel_nasional.parquet (+ .csv)")
         hasil["nasional"] = nas
     return hasil
