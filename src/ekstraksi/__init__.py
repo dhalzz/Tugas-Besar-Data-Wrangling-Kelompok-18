@@ -84,3 +84,4 @@ def ringkasan(hasil):
         "baris_mentah": int(sum(len(df) for df in hasil.values())),
         "format": len({b.rsplit(".", 1)[-1].lower() for b in berkas}),
     }
+
