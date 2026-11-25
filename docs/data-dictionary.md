@@ -38,5 +38,57 @@ _berkas_raw     : bps/2026-10-17/sdg7_bahan_bakar.csv
 _sha256_raw     : hash yang cocok dengan MANIFEST.csv
 ```
 
-## data/gold/<tabel>.parquet
-Kolom Gold akan dilengkapi pada Sprint 2–3 setelah tabel Gold dibuat.
+## data/gold/panel.parquet
+
+Satu baris Gold merepresentasikan satu kombinasi provinsi × tahun × indikator. Gold dibentuk dari grid Silver dan nilai observasi Silver. Baris struktural sebelum provinsi terbentuk dan tahun yang tidak diterbitkan tidak dimasukkan.
+
+| Kolom | Tipe | Satuan/format | Boleh kosong | Rentang atau nilai sah | Asal (berkas/aturan) | Keterangan |
+|---|---|---|---|---|---|---|
+| `wilayah_kode` | int | kode BPS × 100 | tidak | kode provinsi | grid Silver dan dim_provinsi_38.csv | Identitas provinsi. Agregat nasional 9999 tidak dimasukkan. |
+| `nama_provinsi` | string | nama provinsi resmi | tidak | nama provinsi | grid Silver | Nama provinsi sesuai referensi. |
+| `periode` | string | YYYY | tidak | tahun pengamatan | grid Silver | Tahun observasi. |
+| `indikator` | string | kode indikator Gold | tidak | `elektrifikasi`, `bahan_bakar_bersih`, `bahan_bakar_tidak_bersih`, `bahan_bakar_lainnya` | aturan transformasi Gold | Identitas indikator setelah reshape dan agregasi. |
+| `nilai` | float | persen | ya | 0–100 | nilai Silver atau hasil agregasi | Nilai asli untuk elektrifikasi dan Lainnya; hasil penjumlahan komponen untuk kategori bahan bakar. Missing sejati tetap kosong. |
+| `satuan` | string | nama satuan | tidak | `persen` | metadata seri Silver | Satuan indikator. Satuan berbeda tidak boleh dicampur dalam satu indikator. |
+| `_lineage_silver` | string | JSON array | ya | daftar identitas baris Silver beserta berkas dan hash asal | Silver dan MANIFEST.csv | Menyimpan seluruh baris Silver yang membentuk nilai Gold. Untuk missing sejati, daftar kosong karena tidak ada observasi Silver asal. |
+| `status_data` | string | kategori status | tidak | `tersedia`, `missing_sejati` | grid Silver | Membedakan nilai observasi tersedia dan sel kosong dalam tahun terbit. |
+
+### Aturan transformasi Gold
+
+1. **Listrik**
+   - Sumber: seri `var87`.
+   - `rincian` Silver `elektrifikasi` menjadi indikator Gold `elektrifikasi`.
+   - Nilai dan satuan dipertahankan.
+
+2. **Bahan bakar bersih**
+   - Sumber: seri `tabel:sdg7_bahan_bakar`.
+   - Pemetaan: `Listrik` + `Gas/Elpiji`.
+   - Nilai Gold merupakan penjumlahan kedua komponen dalam satu provinsi dan tahun.
+
+3. **Bahan bakar tidak bersih**
+   - Pemetaan: `Kayu` + `Arang/Briket` + `Minyak Tanah`.
+   - Nilai Gold merupakan penjumlahan ketiga komponen dalam satu provinsi dan tahun.
+
+4. **Bahan bakar lainnya**
+   - Rincian `Lainnya` dipertahankan sebagai indikator tersendiri.
+   - Tidak digabungkan ke kategori bersih maupun tidak bersih.
+
+5. **Rincian Jumlah**
+   - Dikeluarkan dari agregasi karena merupakan total seluruh kategori dan dapat menyebabkan penghitungan ganda (K-006).
+
+6. **Penanganan missing**
+   - Baris dengan `sebelum_provinsi_ada = True` tidak dimasukkan.
+   - Baris dengan `tahun_tidak_diterbitkan = True` tidak dimasukkan.
+   - Missing sejati tetap menjadi baris Gold dengan `nilai` kosong dan `status_data = missing_sejati`.
+   - Jika satu atau lebih komponen agregasi tidak tersedia, nilai agregat menjadi kosong. Komponen yang tidak tersedia tidak dianggap nol.
+   - Nilai asli tidak diimputasi atau dikoreksi.
+
+7. **Lineage**
+    - Setiap nilai Gold harus dapat ditelusuri ke seluruh baris Silver pembentuknya.
+    - Untuk indikator hasil agregasi, lineage mencakup seluruh komponen Silver yang tersedia dan digunakan sebagai sumber agregasi.
+    - Informasi berkas mentah dan SHA-256 setiap komponen disimpan dalam `_lineage_silver`.
+    - Jika suatu komponen tidak tersedia, komponen tersebut tidak dibuatkan identitas sumber. Jika tidak ada komponen Silver yang tersedia, `_lineage_silver` berisi daftar kosong.
+
+8. **Kunci unik**
+   - Kombinasi `wilayah_kode`, `periode`, dan `indikator` harus unik.
+   - Seluruh indikator pada tabel Gold menggunakan satuan persen.
