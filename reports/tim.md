@@ -15,7 +15,7 @@ Pada tahap penyimpanan (Tahap 5), Silver dan Gold dimuat ke basis data relasiona
 - `silver`: `PRIMARY KEY (sumber, seri_kode, wilayah_kode, periode, rincian, _berkas_raw)`
 - `gold_panel`: `PRIMARY KEY (sumber, seri_kode, wilayah_kode, periode, rincian, _berkas_raw)`
 - `gold_nasional`: `PRIMARY KEY (periode, seri_kode, rincian)`
-- `gold_rekonsiliasi`: `PRIMARY KEY (tahun, seri)`
+- `gold_rekonsiliasi`: `PRIMARY KEY (pasangan, periode)`
 
 **Perbandingan dengan penyimpanan dokumen JSON mentah:**
 - **Lapis Bronze (data mentah di `data/raw/`):** Cocok disimpan sebagai dokumen JSON/CSV mentah apa adanya. Struktur respons WebAPI BPS (HTML yang di-*escape* maupun `datacontent`) dan API World Bank (array `[header, records]` bersarang) bersifat heterogen antar-sumber. Menyimpan dokumen mentah mempertahankan bentuk asli sumber untuk auditabilitas dan verifikasi sidik SHA-256 (`MANIFEST.csv`).
