@@ -2,22 +2,22 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 1991,EG.ELC.ACCS.ZS,,48.9,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 1992,EG.ELC.ACCS.ZS,,66.6965637207031,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 1993,EG.ELC.ACCS.ZS,,55.43,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1993,var87,elektrifikasi,51.83,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1993,var87,elektrifikasi,51.83,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 1994,EG.ELC.ACCS.ZS,,62.8,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1994,var87,elektrifikasi,57.51,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1994,var87,elektrifikasi,57.51,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 1995,EG.ELC.ACCS.ZS,,66.86,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1995,var87,elektrifikasi,63.1,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1995,var87,elektrifikasi,63.1,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 1996,EG.ELC.ACCS.ZS,,72.39,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1996,var87,elektrifikasi,68.66,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1996,var87,elektrifikasi,68.66,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 1997,EG.ELC.ACCS.ZS,,80.3,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1997,var87,elektrifikasi,73.77,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1997,var87,elektrifikasi,73.77,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 1998,EG.ELC.ACCS.ZS,,80.94,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1998,var87,elektrifikasi,78.13,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1998,var87,elektrifikasi,78.13,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 1999,EG.ELC.ACCS.ZS,,83.73,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-1999,var87,elektrifikasi,81.7,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+1999,var87,elektrifikasi,81.7,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2000,EG.CFT.ACCS.ZS,,6.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2000,EG.ELC.ACCS.ZS,,86.3,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2000,var87,elektrifikasi,83.97,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2000,var87,elektrifikasi,83.97,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2001,EG.CFT.ACCS.ZS,,6.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2001,EG.ELC.ACCS.ZS,,86.3,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2001,tabel:sdg7_bahan_bakar,Arang/Briket,0.27,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -26,21 +26,21 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2001,tabel:sdg7_bahan_bakar,Lainnya,1.26,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2001,tabel:sdg7_bahan_bakar,Listrik,2.92,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2001,tabel:sdg7_bahan_bakar,Minyak Tanah,44.1,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2001,var87,elektrifikasi,83.48,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2001,var87,elektrifikasi,83.48,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2002,EG.CFT.ACCS.ZS,,7.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2002,EG.ELC.ACCS.ZS,,87.6,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2002,var87,elektrifikasi,85.38,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2002,var87,elektrifikasi,85.38,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2003,EG.CFT.ACCS.ZS,,8.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2003,EG.ELC.ACCS.ZS,,87.9,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2003,var87,elektrifikasi,85.02,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2003,var87,elektrifikasi,85.02,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2004,EG.CFT.ACCS.ZS,,10.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2004,EG.ELC.ACCS.ZS,,89.0,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2004,var87,elektrifikasi,86.56,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2004,var87,elektrifikasi,86.56,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2005,EG.CFT.ACCS.ZS,,13.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2005,EG.ELC.ACCS.ZS,,84.8,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2006,EG.CFT.ACCS.ZS,,17.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2006,EG.ELC.ACCS.ZS,,90.6,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2006,var87,elektrifikasi,87.76,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2006,var87,elektrifikasi,87.76,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2007,EG.CFT.ACCS.ZS,,22.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2007,EG.ELC.ACCS.ZS,,91.1,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2007,tabel:sdg7_bahan_bakar,Arang/Briket,0.79,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -49,7 +49,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2007,tabel:sdg7_bahan_bakar,Lainnya,0.82,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2007,tabel:sdg7_bahan_bakar,Listrik,1.86,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2007,tabel:sdg7_bahan_bakar,Minyak Tanah,36.57,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2007,var87,elektrifikasi,88.37,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2007,var87,elektrifikasi,88.37,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2008,EG.CFT.ACCS.ZS,,28.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2008,EG.ELC.ACCS.ZS,,92.7,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2008,tabel:sdg7_bahan_bakar,Arang/Briket,0.81,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -58,7 +58,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2008,tabel:sdg7_bahan_bakar,Lainnya,1.07,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2008,tabel:sdg7_bahan_bakar,Listrik,1.06,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2008,tabel:sdg7_bahan_bakar,Minyak Tanah,30.89,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2008,var87,elektrifikasi,89.46,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2008,var87,elektrifikasi,89.46,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2009,EG.CFT.ACCS.ZS,,35.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2009,EG.ELC.ACCS.ZS,,93.6,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2009,tabel:sdg7_bahan_bakar,Arang/Briket,0.6,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -67,7 +67,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2009,tabel:sdg7_bahan_bakar,Lainnya,1.05,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2009,tabel:sdg7_bahan_bakar,Listrik,1.43,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2009,tabel:sdg7_bahan_bakar,Minyak Tanah,18.14,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2009,var87,elektrifikasi,89.29,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2009,var87,elektrifikasi,89.29,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2010,EG.CFT.ACCS.ZS,,42.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2010,EG.ELC.ACCS.ZS,,94.2,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2010,tabel:sdg7_bahan_bakar,Arang/Briket,0.7,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -76,7 +76,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2010,tabel:sdg7_bahan_bakar,Lainnya,1.7,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2010,tabel:sdg7_bahan_bakar,Listrik,1.53,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2010,tabel:sdg7_bahan_bakar,Minyak Tanah,12.11,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2010,var87,elektrifikasi,89.47,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2010,var87,elektrifikasi,89.47,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2011,EG.CFT.ACCS.ZS,,48.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2011,EG.ELC.ACCS.ZS,,94.8,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2011,tabel:sdg7_bahan_bakar,Arang/Briket,0.45,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -85,7 +85,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2011,tabel:sdg7_bahan_bakar,Lainnya,1.53,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2011,tabel:sdg7_bahan_bakar,Listrik,1.19,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2011,tabel:sdg7_bahan_bakar,Minyak Tanah,9.55,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2011,var87,elektrifikasi,90.51,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2011,var87,elektrifikasi,90.51,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2012,EG.CFT.ACCS.ZS,,54.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2012,EG.ELC.ACCS.ZS,,96.0,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2012,tabel:sdg7_bahan_bakar,Arang/Briket,0.36,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -94,7 +94,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2012,tabel:sdg7_bahan_bakar,Lainnya,1.27,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2012,tabel:sdg7_bahan_bakar,Listrik,1.02,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2012,tabel:sdg7_bahan_bakar,Minyak Tanah,6.46,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2012,var87,elektrifikasi,92.13,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2012,var87,elektrifikasi,92.13,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2013,EG.CFT.ACCS.ZS,,60.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2013,EG.ELC.ACCS.ZS,,96.5,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2013,tabel:sdg7_bahan_bakar,Arang/Briket,0.31,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -103,7 +103,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2013,tabel:sdg7_bahan_bakar,Lainnya,2.3,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2013,tabel:sdg7_bahan_bakar,Listrik,0.79,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2013,tabel:sdg7_bahan_bakar,Minyak Tanah,5.95,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2013,var87,elektrifikasi,93.17,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2013,var87,elektrifikasi,93.17,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2014,EG.CFT.ACCS.ZS,,64.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2014,EG.ELC.ACCS.ZS,,97.0,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2014,tabel:sdg7_bahan_bakar,Arang/Briket,0.29,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -112,7 +112,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2014,tabel:sdg7_bahan_bakar,Lainnya,2.41,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2014,tabel:sdg7_bahan_bakar,Listrik,0.62,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2014,tabel:sdg7_bahan_bakar,Minyak Tanah,5.12,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2014,var87,elektrifikasi,93.97,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2014,var87,elektrifikasi,93.97,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2015,EG.CFT.ACCS.ZS,,69.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2015,EG.ELC.ACCS.ZS,,97.5,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2015,tabel:sdg7_bahan_bakar,Arang/Briket,0.24,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -121,7 +121,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2015,tabel:sdg7_bahan_bakar,Lainnya,1.5,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2015,tabel:sdg7_bahan_bakar,Listrik,0.64,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2015,tabel:sdg7_bahan_bakar,Minyak Tanah,4.44,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2015,var87,elektrifikasi,94.44,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2015,var87,elektrifikasi,94.44,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2016,EG.CFT.ACCS.ZS,,73.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2016,EG.ELC.ACCS.ZS,,97.6,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2016,tabel:sdg7_bahan_bakar,Arang/Briket,0.19,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -130,7 +130,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2016,tabel:sdg7_bahan_bakar,Lainnya,1.24,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2016,tabel:sdg7_bahan_bakar,Listrik,0.85,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2016,tabel:sdg7_bahan_bakar,Minyak Tanah,3.78,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2016,var87,elektrifikasi,94.93,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2016,var87,elektrifikasi,94.93,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2017,EG.CFT.ACCS.ZS,,76.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2017,EG.ELC.ACCS.ZS,,98.1,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2017,tabel:sdg7_bahan_bakar,Arang/Briket,0.13,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -139,7 +139,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2017,tabel:sdg7_bahan_bakar,Lainnya,2.11,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2017,tabel:sdg7_bahan_bakar,Listrik,0.57,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2017,tabel:sdg7_bahan_bakar,Minyak Tanah,3.67,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2017,var87,elektrifikasi,95.99,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2017,var87,elektrifikasi,95.99,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2018,EG.CFT.ACCS.ZS,,79.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2018,EG.ELC.ACCS.ZS,,98.5,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2018,tabel:sdg7_bahan_bakar,Arang/Briket,0.09,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -148,7 +148,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2018,tabel:sdg7_bahan_bakar,Lainnya,1.67,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2018,tabel:sdg7_bahan_bakar,Listrik,0.65,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2018,tabel:sdg7_bahan_bakar,Minyak Tanah,3.37,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2018,var87,elektrifikasi,96.52,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2018,var87,elektrifikasi,96.52,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2019,EG.CFT.ACCS.ZS,,81.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2019,EG.ELC.ACCS.ZS,,98.8,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2019,tabel:sdg7_bahan_bakar,Arang/Briket,0.09,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -157,7 +157,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2019,tabel:sdg7_bahan_bakar,Lainnya,1.83,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2019,tabel:sdg7_bahan_bakar,Listrik,0.82,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2019,tabel:sdg7_bahan_bakar,Minyak Tanah,3.33,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2019,var87,elektrifikasi,96.73,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2019,var87,elektrifikasi,96.73,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2020,EG.CFT.ACCS.ZS,,84.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2020,EG.ELC.ACCS.ZS,,97.0,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2020,tabel:sdg7_bahan_bakar,Arang/Briket,0.08,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -166,7 +166,7 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2020,tabel:sdg7_bahan_bakar,Lainnya,1.79,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2020,tabel:sdg7_bahan_bakar,Listrik,0.76,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2020,tabel:sdg7_bahan_bakar,Minyak Tanah,2.97,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2020,var87,elektrifikasi,96.95,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2020,var87,elektrifikasi,96.95,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2021,EG.CFT.ACCS.ZS,,86.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2021,EG.ELC.ACCS.ZS,,99.2,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2021,tabel:sdg7_bahan_bakar,Arang/Briket,0.08,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
@@ -175,14 +175,14 @@ periode,seri_kode,rincian,nilai,satuan,peran,pasangan_utama,asal_angka,sumber,ke
 2021,tabel:sdg7_bahan_bakar,Lainnya,1.26,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2021,tabel:sdg7_bahan_bakar,Listrik,0.76,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
 2021,tabel:sdg7_bahan_bakar,Minyak Tanah,2.78,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_bahan_bakar.csv,10d1d950ab849452d7bb95543d854e4123e0b76648ae350d885b52ff43acb172
-2021,var87,elektrifikasi,97.26,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2021,var87,elektrifikasi,97.26,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2022,EG.CFT.ACCS.ZS,,87.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2022,EG.ELC.ACCS.ZS,,100.0,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2022,var87,elektrifikasi,97.73,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2022,var87,elektrifikasi,97.73,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2023,EG.CFT.ACCS.ZS,,89.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2023,EG.ELC.ACCS.ZS,,99.4,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2023,var87,elektrifikasi,97.93,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2023,var87,elektrifikasi,97.93,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
 2024,EG.CFT.ACCS.ZS,,90.0,persen,pembanding,tabel:sdg7_bahan_bakar,pembanding_wdi,wdi,Access to clean fuels and technologies for cooking (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
 2024,EG.ELC.ACCS.ZS,,99.9,persen,pembanding,var87,pembanding_wdi,wdi,Access to electricity (% of population),wdi/2026-10-20/data/kelompok-01-hal-01.json,8d2fae3a96415bd41299bf08abfc356d33448bdd6b66ff2f492aca4eb0e63226
-2024,var87,elektrifikasi,98.24,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
-2025,var87,elektrifikasi,98.46,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/json/sdg7_listrik_pln.json,88d2ddbd3ccfeb6cb395345f034be0e39b8e732996a2824ae414d90a6153828e
+2024,var87,elektrifikasi,98.24,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
+2025,var87,elektrifikasi,98.46,persen,utama,,baris_indonesia,bps,,bps/2026-10-17/sdg7_listrik_pln.csv,cd6749c26d71666e1262cc84aa0c4290d081819410358c11eb8666f1367182a2
