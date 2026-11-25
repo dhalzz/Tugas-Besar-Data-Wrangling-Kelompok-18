@@ -23,4 +23,10 @@ def jalankan(silver, mentah=None):
         nas.to_csv(GOLD_DIR / "tabel_nasional.csv", index=False)
         print(f"Gold nasional: {len(nas):,} baris -> data/gold/tabel_nasional.parquet (+ .csv)")
         hasil["nasional"] = nas
+
+    from src.gold.muat_sql import DB_PATH, muat_semua
+    ringkasan_sql = muat_semua(silver, hasil)
+    rincian_sql = ", ".join(f"{t}={n:,}" for t, n in ringkasan_sql.items())
+    print(f"SQLite: {DB_PATH.relative_to(ROOT)} ({rincian_sql})")
+
     return hasil
