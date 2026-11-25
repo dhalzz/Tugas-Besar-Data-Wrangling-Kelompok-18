@@ -18,11 +18,23 @@ def jalankan(silver, mentah=None):
 
     if mentah is not None:
         from src.gold.nasional import bangun_nasional
+        from src.gold.rekonsiliasi import bangun_rekonsiliasi
+
         nas = bangun_nasional(silver, mentah)
         nas.to_parquet(GOLD_DIR / "tabel_nasional.parquet", index=False)
         nas.to_csv(GOLD_DIR / "tabel_nasional.csv", index=False)
         print(f"Gold nasional: {len(nas):,} baris -> data/gold/tabel_nasional.parquet (+ .csv)")
         hasil["nasional"] = nas
+
+        rek = bangun_rekonsiliasi(nas)
+        rek.to_parquet(GOLD_DIR / "tabel_rekonsiliasi.parquet", index=False)
+        rek.to_csv(GOLD_DIR / "tabel_rekonsiliasi.csv", index=False)
+        n_pair = int((rek["nilai_utama"].notna() & rek["nilai_pembanding"].notna()).sum())
+        print(
+            f"Gold rekonsiliasi: {len(rek):,} baris ({n_pair} berpasangan) "
+            "-> data/gold/tabel_rekonsiliasi.parquet (+ .csv)"
+        )
+        hasil["rekonsiliasi"] = rek
 
     from src.gold.muat_sql import DB_PATH, muat_semua
     ringkasan_sql = muat_semua(silver, hasil)

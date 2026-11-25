@@ -54,11 +54,18 @@ CREATE TABLE gold_nasional (
 
 DDL_GOLD_REKONSILIASI = """
 CREATE TABLE gold_rekonsiliasi (
-    tahun INTEGER NOT NULL,
-    seri TEXT NOT NULL,
-    nilai REAL NOT NULL,
-    sumber TEXT NOT NULL,
-    PRIMARY KEY (tahun, seri)
+    pasangan TEXT NOT NULL,
+    seri_utama TEXT NOT NULL,
+    seri_pembanding TEXT NOT NULL,
+    periode TEXT NOT NULL,
+    nilai_utama REAL,
+    nilai_pembanding REAL,
+    selisih REAL,
+    kategori_penjelasan TEXT,
+    catatan TEXT NOT NULL,
+    _berkas_raw_utama TEXT,
+    _berkas_raw_pembanding TEXT,
+    PRIMARY KEY (pasangan, periode)
 );
 """
 

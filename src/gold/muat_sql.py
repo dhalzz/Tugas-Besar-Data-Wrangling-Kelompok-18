@@ -11,7 +11,6 @@ from src.gold.sql_schema import SEMUA_DDL
 
 ROOT = Path(__file__).resolve().parents[2]
 DB_PATH = ROOT / "data" / "gold" / "gold.sqlite"
-REKONSILIASI_CSV = ROOT / "reports" / "tabel_nasional_rekonsiliasi.csv"
 
 
 def _siapkan_tabel(conn: sqlite3.Connection, nama_tabel: str, ddl: str) -> None:
@@ -62,9 +61,6 @@ def muat_semua(
             ringkasan["gold_rekonsiliasi"] = _muat_dataframe(
                 conn, "gold_rekonsiliasi", gold["rekonsiliasi"]
             )
-        elif REKONSILIASI_CSV.exists():
-            df_rek = pd.read_csv(REKONSILIASI_CSV)
-            ringkasan["gold_rekonsiliasi"] = _muat_dataframe(conn, "gold_rekonsiliasi", df_rek)
 
         conn.commit()
 
