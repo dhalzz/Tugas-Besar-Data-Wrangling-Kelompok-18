@@ -1,4 +1,5 @@
-﻿"""Tahap Gold: pembentukan panel provinsi x tahun x indikator."""
+﻿
+"""Tahap Gold: pembentukan panel provinsi x tahun x indikator."""
 
 from pathlib import Path
 import json
@@ -6,6 +7,12 @@ import json
 import pandas as pd
 
 from src.silver import grid
+from src.gold.pemilihan import (
+    pilih_snapshot,
+    validasi_periode_tahunan,
+    pastikan_unik,
+    tandai_outlier,
+)
 
 ROOT = Path(__file__).resolve().parents[2]
 GOLD_DIR = ROOT / "data" / "gold"
@@ -174,22 +181,64 @@ def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
     return pd.DataFrame(hasil)
 
 
+def bentuk_panel_listrik(grid_listrik):
+    """Bentuk panel listrik dari grid lengkap."""
+    hasil = grid_listrik.copy()
+
+    hasil = hasil.rename(
+        columns={"nama_provinsi": "nama_wilayah"}
+    )
+
+    hasil["indikator"] = "elektrifikasi"
+    hasil["kategori"] = "listrik"
+    hasil["satuan"] = "%"
+    hasil["jenis_periode"] = "tahun"
+    hasil["rincian_missing"] = ""
+
+    return hasil[
+        [
+            "wilayah_kode",
+            "nama_wilayah",
+            "periode",
+            "indikator",
+            "kategori",
+            "nilai",
+            "satuan",
+            "jenis_periode",
+            "sebelum_provinsi_ada",
+            "tahun_tidak_diterbitkan",
+            "sel_kosong_dalam_terbitan",
+            "missing_sejati",
+            "rincian_missing",
+        ]
+    ]
+
+
+
 def jalankan(silver, mentah=None):
-    """Bentuk panel Gold, integrasi nasional, rekonsiliasi, dan SQLite."""
+    """Bentuk panel Gold, tabel nasional, rekonsiliasi, dan SQLite."""
     GOLD_DIR.mkdir(parents=True, exist_ok=True)
 
-    # 1. Bentuk panel Gold provinsi x tahun x indikator
+    # 1. Pilih snapshot dan validasi data Silver.
+    terpilih = pilih_snapshot(silver)
+    terpilih = validasi_periode_tahunan(terpilih)
+    pastikan_unik(terpilih)
+
+    # 2. Siapkan referensi dan lineage dari Silver terpilih.
     dim, mulai = grid.muat_referensi()
-    peta_lineage = _buat_peta_lineage(silver)
+    peta_lineage = _buat_peta_lineage(terpilih)
 
+    # 3. Bentuk indikator elektrifikasi.
     listrik = _buat_listrik(
-        silver, dim, mulai, peta_lineage
+        terpilih, dim, mulai, peta_lineage
     )
 
+    # 4. Bentuk tiga indikator bahan bakar.
     bahan_bakar = _buat_bahan_bakar(
-        silver, dim, mulai, peta_lineage
+        terpilih, dim, mulai, peta_lineage
     )
 
+    # 5. Gabungkan seluruh indikator Gold.
     gold = pd.concat(
         [listrik, bahan_bakar],
         ignore_index=True,
@@ -199,11 +248,30 @@ def jalankan(silver, mentah=None):
         ["wilayah_kode", "periode", "indikator"]
     ).reset_index(drop=True)
 
+    # 6. Pastikan kunci panel Gold unik.
     kunci = ["wilayah_kode", "periode", "indikator"]
+    duplikat = gold.duplicated(subset=kunci, keep=False)
 
-    if gold.duplicated(kunci).any():
-        raise ValueError("Kunci panel Gold tidak unik.")
+    if duplikat.any():
+        raise ValueError(
+            "Ditemukan duplikasi kunci panel Gold:\n"
+            + gold.loc[duplikat, kunci]
+            .head(10)
+            .to_string(index=False)
+        )
 
+    # 7. Tambahkan status audit patahan Sprint 1.
+    gold["status_patahan"] = "tidak_terkonfirmasi"
+    gold["catatan_patahan"] = (
+        "Tidak ditemukan patahan seri nasional terkonfirmasi. "
+        "Perubahan lokal dipertahankan sesuai keputusan K-017."
+    )
+
+    # 8. Tandai kandidat outlier berdasarkan hasil audit Sprint 1.
+    gold = tandai_outlier(gold, ROOT)
+
+
+    # 9. Simpan panel Gold.
     jalur = GOLD_DIR / "panel.parquet"
     gold.to_parquet(jalur, index=False)
 
@@ -219,12 +287,13 @@ def jalankan(silver, mentah=None):
 
     hasil = {"panel": gold}
 
-    # 2. Bangun tabel nasional dan rekonsiliasi
+    # 10. Bangun tabel nasional dan rekonsiliasi.
     if mentah is not None:
         from src.gold.nasional import bangun_nasional
         from src.gold.rekonsiliasi import bangun_rekonsiliasi
 
         nas = bangun_nasional(silver, mentah)
+
         nas.to_parquet(
             GOLD_DIR / "tabel_nasional.parquet",
             index=False,
@@ -233,10 +302,12 @@ def jalankan(silver, mentah=None):
             GOLD_DIR / "tabel_nasional.csv",
             index=False,
         )
+
         print(f"Gold nasional: {len(nas):,} baris")
         hasil["nasional"] = nas
 
         rek = bangun_rekonsiliasi(nas)
+
         rek.to_parquet(
             GOLD_DIR / "tabel_rekonsiliasi.parquet",
             index=False,
@@ -252,19 +323,24 @@ def jalankan(silver, mentah=None):
                 & rek["nilai_pembanding"].notna()
             ).sum()
         )
+
         print(
             f"Gold rekonsiliasi: {len(rek):,} baris "
             f"({n_pair} berpasangan)"
         )
+
         hasil["rekonsiliasi"] = rek
 
-    # 3. Muat Silver dan seluruh hasil Gold ke SQLite
+    # 11. Muat Silver dan seluruh hasil Gold ke SQLite.
     from src.gold.muat_sql import DB_PATH, muat_semua
 
     ringkasan_sql = muat_semua(silver, hasil)
+
     rincian_sql = ", ".join(
-        f"{t}={n:,}" for t, n in ringkasan_sql.items()
+        f"{t}={n:,}"
+        for t, n in ringkasan_sql.items()
     )
+
     print(
         f"SQLite: {DB_PATH.relative_to(ROOT)} "
         f"({rincian_sql})"

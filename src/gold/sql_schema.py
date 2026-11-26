@@ -17,6 +17,8 @@ CREATE TABLE silver (
 );
 """
 
+
+
 DDL_GOLD_PANEL = """
 CREATE TABLE gold_panel (
     wilayah_kode INTEGER NOT NULL,
@@ -27,9 +29,13 @@ CREATE TABLE gold_panel (
     satuan TEXT NOT NULL,
     _lineage_silver TEXT,
     status_data TEXT NOT NULL,
+    status_patahan TEXT NOT NULL,
+    catatan_patahan TEXT NOT NULL,
+    outlier INTEGER NOT NULL,
     PRIMARY KEY (wilayah_kode, periode, indikator)
 );
 """
+
 
 DDL_GOLD_NASIONAL = """
 CREATE TABLE gold_nasional (
