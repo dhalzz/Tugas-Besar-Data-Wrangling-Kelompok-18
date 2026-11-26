@@ -4,6 +4,8 @@ data/KASUS.md
 data/LISENSI.md
 # Silver dan Gold boleh di-commit bila < 20 MB (dinilai dan dicocokkan); basis data besar tidak
 *.duckdb
+*.sqlite
+*.db
 __pycache__/
 .ipynb_checkpoints/
 .venv/
