@@ -11,4 +11,4 @@ Dibuat otomatis saat `python pipeline.py` dijalankan.
 | Setiap jenis bahan bakar memiliki satu kategori | Lolos | 6 jenis bahan bakar diperiksa. |
 | Kolom wajib Gold tersedia | Lolos | Semua kolom wajib tersedia. |
 | Kunci provinsi-periode-indikator Gold unik | Lolos | 0 baris duplikat ditemukan. |
-| Penanda outlier dan patahan Gold tersedia | Lolos | 124 baris ditandai outlier; status patahan dan catatannya tersedia. |
+| Penanda outlier dan patahan Gold tersedia | Lolos | 135 baris ditandai outlier; status patahan dan catatannya tersedia. |

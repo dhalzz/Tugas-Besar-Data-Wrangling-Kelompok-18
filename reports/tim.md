@@ -1,4 +1,4 @@
-# Laporan tim — <Nama tim>, kasus <NN> <judul kasus>
+# Laporan tim — <Nama tim>, kasus <18> <judul kasus>
 
 Satu dokumen bersama, enam bagian. Angka harus dapat ditarik ulang dari `data/silver`, `data/gold`,
 dan `log-keputusan.csv` yang sudah di-*commit*.
@@ -18,9 +18,11 @@ Snapshot data yang digunakan berasal dari BPS tanggal 17 Oktober 2026 dan WDI ta
 ### Pilihan Basis Data dan Perbandingan dengan Dokumen JSON Mentah
 Pada tahap penyimpanan (Tahap 5), Silver dan Gold dimuat ke basis data relasional **SQLite** (`data/gold/gold.sqlite`) melalui `python pipeline.py` (`src/gold/sql_schema.py` dan `src/gold/muat_sql.py`) dengan empat tabel bertipe kolom eksplisit dan kunci primer komposit:
 - `silver`: `PRIMARY KEY (sumber, seri_kode, wilayah_kode, periode, rincian, _berkas_raw)`
-- `gold_panel`: `PRIMARY KEY (sumber, seri_kode, wilayah_kode, periode, rincian, _berkas_raw)`
+- `gold_panel`: `PRIMARY KEY (wilayah_kode, periode, indikator)`
 - `gold_nasional`: `PRIMARY KEY (periode, seri_kode, rincian)`
 - `gold_rekonsiliasi`: `PRIMARY KEY (pasangan, periode)`
+
+Tabel `gold_panel` menyimpan panel provinsi × tahun × indikator hasil transformasi Silver. Kolomnya meliputi `wilayah_kode`, `nama_provinsi`, `periode`, `indikator`, `nilai`, `satuan`, `_lineage_silver`, dan `status_data`.
 
 **Perbandingan dengan penyimpanan dokumen JSON mentah:**
 - **Lapis Bronze (data mentah di `data/raw/`):** Cocok disimpan sebagai dokumen JSON/CSV mentah apa adanya. Struktur respons WebAPI BPS (HTML yang di-*escape* maupun `datacontent`) dan API World Bank (array `[header, records]` bersarang) bersifat heterogen antar-sumber. Menyimpan dokumen mentah mempertahankan bentuk asli sumber untuk auditabilitas dan verifikasi sidik SHA-256 (`MANIFEST.csv`).
@@ -56,3 +58,4 @@ Keterbatasan yang masih ada adalah belum tersedianya arsip WDI versi sebelumnya 
 | Anggota | NIM | Komponen | Tugas sampingan | Bagian laporan yang ditulis |
 |---|---|---|---|---|
 | Afdhal Rahmad Setiawan | 124450126 | Implementasi penyimpanan SQLite, DDL Silver dan Gold, loader SQL, serta tabel rekonsiliasi | Pengujian pipeline, pemeriksaan jumlah baris SQL dan Parquet, serta pemeriksaan hasil rekonsiliasi | Data dan Lineage, Integrasi dan Rekonsiliasi, Validasi dan Reproduksibilitas |
+| Faizatun Najmi | 124450126 | Transformasi data Silver menjadi panel Gold provinsi × tahun × indikator, termasuk agregasi bahan bakar dan lineage | Pengujian pipeline, pemeriksaan keunikan kunci panel, pemeriksaan missing data, dan verifikasi hasil Gold | Transformasi dan Panel Gold, Masalah Data dan Penanganannya, Validasi Hasil Gold |
