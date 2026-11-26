@@ -1,5 +1,4 @@
-﻿
-"""Tahap Gold: pembentukan panel provinsi x tahun x indikator."""
+﻿"""Tahap Gold: pembentukan panel provinsi x tahun x indikator."""
 
 from pathlib import Path
 import json
@@ -175,25 +174,20 @@ def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
     return pd.DataFrame(hasil)
 
 
-def jalankan(silver):
-    """Bentuk dan simpan panel Gold dari DataFrame Silver."""
+def jalankan(silver, mentah=None):
+    """Bentuk panel Gold, integrasi nasional, rekonsiliasi, dan SQLite."""
     GOLD_DIR.mkdir(parents=True, exist_ok=True)
 
+    # 1. Bentuk panel Gold provinsi x tahun x indikator
     dim, mulai = grid.muat_referensi()
     peta_lineage = _buat_peta_lineage(silver)
 
     listrik = _buat_listrik(
-        silver,
-        dim,
-        mulai,
-        peta_lineage,
+        silver, dim, mulai, peta_lineage
     )
 
     bahan_bakar = _buat_bahan_bakar(
-        silver,
-        dim,
-        mulai,
-        peta_lineage,
+        silver, dim, mulai, peta_lineage
     )
 
     gold = pd.concat(
@@ -205,11 +199,7 @@ def jalankan(silver):
         ["wilayah_kode", "periode", "indikator"]
     ).reset_index(drop=True)
 
-    kunci = [
-        "wilayah_kode",
-        "periode",
-        "indikator",
-    ]
+    kunci = ["wilayah_kode", "periode", "indikator"]
 
     if gold.duplicated(kunci).any():
         raise ValueError("Kunci panel Gold tidak unik.")
@@ -221,15 +211,63 @@ def jalankan(silver):
         f"Gold: {len(gold):,} baris -> "
         f"{jalur.relative_to(ROOT)}"
     )
-
     print(
         "Ringkasan status:",
         gold["status_data"].value_counts().to_dict(),
     )
+    print("Jumlah indikator:", gold["indikator"].nunique())
 
+    hasil = {"panel": gold}
+
+    # 2. Bangun tabel nasional dan rekonsiliasi
+    if mentah is not None:
+        from src.gold.nasional import bangun_nasional
+        from src.gold.rekonsiliasi import bangun_rekonsiliasi
+
+        nas = bangun_nasional(silver, mentah)
+        nas.to_parquet(
+            GOLD_DIR / "tabel_nasional.parquet",
+            index=False,
+        )
+        nas.to_csv(
+            GOLD_DIR / "tabel_nasional.csv",
+            index=False,
+        )
+        print(f"Gold nasional: {len(nas):,} baris")
+        hasil["nasional"] = nas
+
+        rek = bangun_rekonsiliasi(nas)
+        rek.to_parquet(
+            GOLD_DIR / "tabel_rekonsiliasi.parquet",
+            index=False,
+        )
+        rek.to_csv(
+            GOLD_DIR / "tabel_rekonsiliasi.csv",
+            index=False,
+        )
+
+        n_pair = int(
+            (
+                rek["nilai_utama"].notna()
+                & rek["nilai_pembanding"].notna()
+            ).sum()
+        )
+        print(
+            f"Gold rekonsiliasi: {len(rek):,} baris "
+            f"({n_pair} berpasangan)"
+        )
+        hasil["rekonsiliasi"] = rek
+
+    # 3. Muat Silver dan seluruh hasil Gold ke SQLite
+    from src.gold.muat_sql import DB_PATH, muat_semua
+
+    ringkasan_sql = muat_semua(silver, hasil)
+    rincian_sql = ", ".join(
+        f"{t}={n:,}" for t, n in ringkasan_sql.items()
+    )
     print(
-        "Jumlah indikator:",
-        gold["indikator"].nunique(),
+        f"SQLite: {DB_PATH.relative_to(ROOT)} "
+        f"({rincian_sql})"
     )
 
-    return {"panel": gold}
+    return hasil
