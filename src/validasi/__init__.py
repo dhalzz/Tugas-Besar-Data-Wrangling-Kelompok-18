@@ -221,6 +221,69 @@ def jalankan(silver, gold=None):
             }
         )
 
+    
+    # Aturan 6: validasi struktur dan kunci unik Gold.
+    if gold is not None:
+        kolom_gold = {
+            "wilayah_kode",
+            "periode",
+            "indikator",
+            "nilai",
+            "outlier",
+            "status_patahan",
+            "catatan_patahan",
+        }
+
+        kolom_hilang = sorted(kolom_gold - set(gold.columns))
+        kolom_lengkap = len(kolom_hilang) == 0
+
+        hasil.append({
+            "aturan": "Kolom wajib Gold tersedia",
+            "lolos": kolom_lengkap,
+            "keterangan": (
+                "Semua kolom wajib tersedia."
+                if kolom_lengkap
+                else "Kolom hilang: " + ", ".join(kolom_hilang)
+            ),
+        })
+
+        if kolom_lengkap:
+            kunci_gold = ["wilayah_kode", "periode", "indikator"]
+            duplikat_gold = int(
+                gold.duplicated(kunci_gold, keep=False).sum()
+            )
+
+            hasil.append({
+                "aturan": "Kunci provinsi-periode-indikator Gold unik",
+                "lolos": duplikat_gold == 0,
+                "keterangan": f"{duplikat_gold} baris duplikat ditemukan.",
+            })
+
+            hasil.append({
+                "aturan": "Penanda outlier dan patahan Gold tersedia",
+                "lolos": (
+                    gold["outlier"].notna().all()
+                    and gold["status_patahan"].notna().all()
+                    and gold["catatan_patahan"].notna().all()
+                ),
+                "keterangan": (
+                    f"{int(gold['outlier'].sum())} baris ditandai outlier; "
+                    "status patahan dan catatannya tersedia."
+                ),
+            })
+        else:
+            hasil.append({
+                "aturan": "Kunci provinsi-periode-indikator Gold unik",
+                "lolos": False,
+                "keterangan": "Tidak diperiksa karena kolom wajib belum lengkap.",
+            })
+            hasil.append({
+                "aturan": "Penanda outlier dan patahan Gold tersedia",
+                "lolos": False,
+                "keterangan": "Tidak diperiksa karena kolom wajib belum lengkap.",
+            })
+
+
     laporan = buat_laporan(hasil)
 
     aturan_validasi = len(hasil)
