@@ -1,4 +1,5 @@
-"""Aturan validasi dasar untuk keluaran Silver."""
+
+"""Aturan validasi dasar untuk keluaran Silver dan Gold."""
 
 from __future__ import annotations
 
@@ -12,7 +13,7 @@ from pandera import Check
 ROOT = Path(__file__).resolve().parents[2]
 TOLERANSI_PERSEN = 1.0
 
-# Isi dan sesuaikan nama bahan bakar dengan nilai rincian di data Silver Anda.
+# Pemetaan jenis bahan bakar berdasarkan rincian Silver.
 KATEGORI_BAHAN_BAKAR = {
     "listrik": "bersih",
     "gas/elpiji": "bersih",
@@ -32,7 +33,7 @@ def buat_laporan(hasil):
     tujuan.parent.mkdir(parents=True, exist_ok=True)
 
     isi = [
-        "# Laporan Validasi Silver",
+        "# Laporan Validasi Silver dan Gold",
         "",
         "Dibuat otomatis saat `python pipeline.py` dijalankan.",
         "",
@@ -52,7 +53,9 @@ def buat_laporan(hasil):
 
 def jalankan(silver, gold=None):
     if not isinstance(silver, pd.DataFrame):
-        raise TypeError("Validasi membutuhkan DataFrame keluaran tahap Silver.")
+        raise TypeError(
+            "Validasi membutuhkan DataFrame keluaran tahap Silver."
+        )
 
     kolom_wajib = {
         "seri_kode",
@@ -64,6 +67,7 @@ def jalankan(silver, gold=None):
     }
 
     kolom_hilang = sorted(kolom_wajib - set(silver.columns))
+
     if kolom_hilang:
         raise ValueError(
             "Kolom Silver belum lengkap: " + ", ".join(kolom_hilang)
@@ -81,42 +85,46 @@ def jalankan(silver, gold=None):
                 nullable=True,
                 checks=Check.in_range(0, 100.01),
             )
-    },
-    strict=False,
-    coerce=True,
-)
+        },
+        strict=False,
+        coerce=True,
+    )
 
     try:
         skema_persen.validate(data_persen)
-        hasil.append(
-            {
-                "aturan": "Nilai persen berada pada rentang 0--100",
-                "lolos": True,
-                "keterangan": f"{len(data_persen)} observasi diperiksa.",
-            }
-        )
+
+        hasil.append({
+            "aturan": "Nilai persen berada pada rentang 0--100",
+            "lolos": True,
+            "keterangan": f"{len(data_persen)} observasi diperiksa.",
+        })
+
     except pa.errors.SchemaErrors as error:
-        hasil.append(
-            {
-                "aturan": "Nilai persen berada pada rentang 0--100",
-                "lolos": False,
-                "keterangan": (
-                    f"{len(error.failure_cases)} pelanggaran ditemukan."
-                ),
-            }
-        )
+        hasil.append({
+            "aturan": "Nilai persen berada pada rentang 0--100",
+            "lolos": False,
+            "keterangan": (
+                f"{len(error.failure_cases)} pelanggaran ditemukan."
+            ),
+        })
 
-    # Aturan 2: kunci observasi harus unik.
-    kunci = ["seri_kode", "wilayah_kode", "periode", "rincian"]
-    jumlah_duplikat = int(silver.duplicated(kunci, keep=False).sum())
+    # Aturan 2: kunci observasi Silver harus unik.
+    kunci = [
+        "seri_kode",
+        "wilayah_kode",
+        "periode",
+        "rincian",
+    ]
 
-    hasil.append(
-        {
-            "aturan": "Kunci observasi Silver unik",
-            "lolos": jumlah_duplikat == 0,
-            "keterangan": f"{jumlah_duplikat} baris duplikat ditemukan.",
-        }
+    jumlah_duplikat = int(
+        silver.duplicated(kunci, keep=False).sum()
     )
+
+    hasil.append({
+        "aturan": "Kunci observasi Silver unik",
+        "lolos": jumlah_duplikat == 0,
+        "keterangan": f"{jumlah_duplikat} baris duplikat ditemukan.",
+    })
 
     # Aturan 3: satuan harus konsisten.
     satuan_lain = sorted(
@@ -129,17 +137,15 @@ def jalankan(silver, gold=None):
         .unique()
     )
 
-    hasil.append(
-        {
-            "aturan": "Satuan seri konsisten",
-            "lolos": len(satuan_lain) == 0,
-            "keterangan": (
-                "Semua satuan adalah persen."
-                if not satuan_lain
-                else "Satuan tidak sesuai: " + ", ".join(satuan_lain)
-            ),
-        }
-    )
+    hasil.append({
+        "aturan": "Satuan seri konsisten",
+        "lolos": len(satuan_lain) == 0,
+        "keterangan": (
+            "Semua satuan adalah persen."
+            if not satuan_lain
+            else "Satuan tidak sesuai: " + ", ".join(satuan_lain)
+        ),
+    })
 
     # Aturan 4 dan 5: khusus seri bahan bakar.
     bahan_bakar = silver[
@@ -157,73 +163,73 @@ def jalankan(silver, gold=None):
     ]
 
     if bahan_bakar.empty:
-        hasil.append(
-            {
-                "aturan": "Total bahan bakar per provinsi-tahun mendekati 100",
-                "lolos": False,
-                "keterangan": "Tidak ada data bahan bakar untuk diperiksa.",
-            }
-        )
-        hasil.append(
-            {
-                "aturan": "Setiap jenis bahan bakar memiliki satu kategori",
-                "lolos": False,
-                "keterangan": "Tidak ada data bahan bakar untuk diperiksa.",
-            }
-        )
+        hasil.append({
+            "aturan": "Total bahan bakar per provinsi-tahun mendekati 100",
+            "lolos": False,
+            "keterangan": "Tidak ada data bahan bakar untuk diperiksa.",
+        })
+
+        hasil.append({
+            "aturan": "Setiap jenis bahan bakar memiliki satu kategori",
+            "lolos": False,
+            "keterangan": "Tidak ada data bahan bakar untuk diperiksa.",
+        })
+
     else:
         grup = (
-            bahan_bakar.groupby(["wilayah_kode", "periode"])["nilai"]
+            bahan_bakar
+            .groupby(["wilayah_kode", "periode"])["nilai"]
             .agg(["sum", "count", "size"])
         )
 
-        grup_lengkap = grup[grup["count"].eq(grup["size"])]
+        grup_lengkap = grup[
+            grup["count"].eq(grup["size"])
+        ]
+
         dikecualikan = len(grup) - len(grup_lengkap)
 
         jumlah_meleset = int(
-            (grup_lengkap["sum"].sub(100).abs() > TOLERANSI_PERSEN).sum()
+            (
+                grup_lengkap["sum"].sub(100).abs()
+                > TOLERANSI_PERSEN
+            ).sum()
         )
 
-        hasil.append(
-            {
-                "aturan": "Total bahan bakar per provinsi-tahun mendekati 100",
-                "lolos": jumlah_meleset == 0,
-                "keterangan": (
-                    f"{len(grup_lengkap)} grup lengkap diperiksa; "
-                    f"{jumlah_meleset} grup meleset lebih dari "
-                    f"±{TOLERANSI_PERSEN}; "
-                    f"{dikecualikan} grup dikecualikan karena nilai kosong."
-                ),
-            }
-        )
+        hasil.append({
+            "aturan": "Total bahan bakar per provinsi-tahun mendekati 100",
+            "lolos": jumlah_meleset == 0,
+            "keterangan": (
+                f"{len(grup_lengkap)} grup lengkap diperiksa; "
+                f"{jumlah_meleset} grup meleset lebih dari "
+                f"±{TOLERANSI_PERSEN}; "
+                f"{dikecualikan} grup dikecualikan karena nilai kosong."
+            ),
+        })
 
-        rincian = sorted(
-            {
-                normalisasi_rincian(x)
-                for x in bahan_bakar["rincian"].dropna()
-            }
-        )
+        rincian = sorted({
+            normalisasi_rincian(x)
+            for x in bahan_bakar["rincian"].dropna()
+        })
 
         belum_terpetakan = [
-            x for x in rincian if x not in KATEGORI_BAHAN_BAKAR
+            x for x in rincian
+            if x not in KATEGORI_BAHAN_BAKAR
         ]
 
-        hasil.append(
-            {
-                "aturan": "Setiap jenis bahan bakar memiliki satu kategori",
-                "lolos": len(belum_terpetakan) == 0,
-                "keterangan": (
-                    f"{len(rincian)} jenis bahan bakar diperiksa."
-                    if not belum_terpetakan
-                    else "Belum dipetakan: "
-                    + ", ".join(belum_terpetakan)
-                ),
-            }
-        )
+        hasil.append({
+            "aturan": "Setiap jenis bahan bakar memiliki satu kategori",
+            "lolos": len(belum_terpetakan) == 0,
+            "keterangan": (
+                f"{len(rincian)} jenis bahan bakar diperiksa."
+                if not belum_terpetakan
+                else "Belum dipetakan: "
+                + ", ".join(belum_terpetakan)
+            ),
+        })
 
-    
     # Aturan 6: validasi struktur dan kunci unik Gold.
     if gold is not None:
+
         kolom_gold = {
             "wilayah_kode",
             "periode",
@@ -234,7 +240,10 @@ def jalankan(silver, gold=None):
             "catatan_patahan",
         }
 
-        kolom_hilang = sorted(kolom_gold - set(gold.columns))
+        kolom_hilang = sorted(
+            kolom_gold - set(gold.columns)
+        )
+
         kolom_lengkap = len(kolom_hilang) == 0
 
         hasil.append({
@@ -248,46 +257,104 @@ def jalankan(silver, gold=None):
         })
 
         if kolom_lengkap:
-            kunci_gold = ["wilayah_kode", "periode", "indikator"]
+
+            # Aturan 7: kunci panel Gold harus unik.
+            kunci_gold = [
+                "wilayah_kode",
+                "periode",
+                "indikator",
+            ]
+
             duplikat_gold = int(
-                gold.duplicated(kunci_gold, keep=False).sum()
+                gold.duplicated(
+                    kunci_gold,
+                    keep=False
+                ).sum()
             )
 
             hasil.append({
                 "aturan": "Kunci provinsi-periode-indikator Gold unik",
                 "lolos": duplikat_gold == 0,
-                "keterangan": f"{duplikat_gold} baris duplikat ditemukan.",
+                "keterangan": (
+                    f"{duplikat_gold} baris duplikat ditemukan."
+                ),
             })
 
+            # Aturan 8: validasi penanda outlier dan patahan Gold.
+
+            # Outlier harus bertipe Boolean dan tidak boleh kosong.
+            outlier_valid = (
+                pd.api.types.is_bool_dtype(gold["outlier"])
+                and gold["outlier"].notna().all()
+            )
+
+            # Status patahan tidak boleh kosong atau hanya spasi.
+            status_patahan_valid = (
+                gold["status_patahan"].notna().all()
+                and gold["status_patahan"]
+                .astype(str)
+                .str.strip()
+                .ne("")
+                .all()
+            )
+
+            # Catatan patahan tidak boleh kosong atau hanya spasi.
+            catatan_patahan_valid = (
+                gold["catatan_patahan"].notna().all()
+                and gold["catatan_patahan"]
+                .astype(str)
+                .str.strip()
+                .ne("")
+                .all()
+            )
+
+            penanda_valid = (
+                outlier_valid
+                and status_patahan_valid
+                and catatan_patahan_valid
+            )
+
+            jumlah_outlier = (
+                int(gold["outlier"].sum())
+                if outlier_valid
+                else "tidak dapat dihitung"
+            )
+
             hasil.append({
-                "aturan": "Penanda outlier dan patahan Gold tersedia",
-                "lolos": (
-                    gold["outlier"].notna().all()
-                    and gold["status_patahan"].notna().all()
-                    and gold["catatan_patahan"].notna().all()
-                ),
+                "aturan": "Penanda outlier dan patahan Gold valid",
+                "lolos": penanda_valid,
                 "keterangan": (
-                    f"{int(gold['outlier'].sum())} baris ditandai outlier; "
-                    "status patahan dan catatannya tersedia."
+                    f"{jumlah_outlier} baris ditandai outlier; "
+                    f"tipe outlier valid: {outlier_valid}; "
+                    f"status patahan valid: {status_patahan_valid}; "
+                    f"catatan patahan valid: {catatan_patahan_valid}."
                 ),
             })
+
         else:
             hasil.append({
                 "aturan": "Kunci provinsi-periode-indikator Gold unik",
                 "lolos": False,
-                "keterangan": "Tidak diperiksa karena kolom wajib belum lengkap.",
+                "keterangan": (
+                    "Tidak diperiksa karena kolom wajib belum lengkap."
+                ),
             })
+
             hasil.append({
-                "aturan": "Penanda outlier dan patahan Gold tersedia",
+                "aturan": "Penanda outlier dan patahan Gold valid",
                 "lolos": False,
-                "keterangan": "Tidak diperiksa karena kolom wajib belum lengkap.",
+                "keterangan": (
+                    "Tidak diperiksa karena kolom wajib belum lengkap."
+                ),
             })
 
-
+    # Membuat laporan hasil validasi.
     laporan = buat_laporan(hasil)
 
     aturan_validasi = len(hasil)
-    aturan_lolos = sum(item["lolos"] for item in hasil)
+    aturan_lolos = sum(
+        item["lolos"] for item in hasil
+    )
 
     print(
         f"validasi: {aturan_lolos}/{aturan_validasi} aturan lolos "

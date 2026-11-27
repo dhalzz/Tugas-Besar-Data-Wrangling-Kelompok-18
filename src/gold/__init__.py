@@ -88,8 +88,10 @@ def jalankan(silver, mentah=None):
     # 6. Bawa status audit patahan Sprint 1.
     gold["status_patahan"] = "tidak_terkonfirmasi"
     gold["catatan_patahan"] = (
-        "Tidak ditemukan patahan seri nasional terkonfirmasi. "
-        "Perubahan lokal dipertahankan sesuai keputusan K-017."
+        "Tidak ditemukan bukti patahan seri yang terkonfirmasi "
+        "berdasarkan audit Sprint 1. Perubahan ekstrem lokal "
+        "dipertahankan dan ditandai sebagai kandidat outlier "
+        "sesuai keputusan K-017, K-020, dan K-021."
     )
 
     # 7. Bawa kandidat outlier Sprint 1.
