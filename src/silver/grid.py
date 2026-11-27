@@ -34,7 +34,11 @@ SERI = {
 }
 
 PROVINSI_2023 = {"Papua Selatan", "Papua Tengah", "Papua Pegunungan", "Papua Barat Daya"}
-ALIAS = {"KEPULAUANBANGKABELITUNG": "KEPBANGKABELITUNG", "KEPULAUANRIAU": "KEPRIAU"}
+ALIAS = {
+    "KEPULAUANBANGKABELITUNG": "KEPBANGKABELITUNG",
+    "KEPULAUANRIAU": "KEPRIAU",
+    "DIYOGYAKARTA3": "DIYOGYAKARTA",
+}
 
 
 def norm(s: str) -> str:

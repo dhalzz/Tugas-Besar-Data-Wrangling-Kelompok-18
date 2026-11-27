@@ -9,3 +9,6 @@ Dibuat otomatis saat `python pipeline.py` dijalankan.
 | Satuan seri konsisten | Lolos | Semua satuan adalah persen. |
 | Total bahan bakar per provinsi-tahun mendekati 100 | Lolos | 545 grup lengkap diperiksa; 0 grup meleset lebih dari ±1.0; 0 grup dikecualikan karena nilai kosong. |
 | Setiap jenis bahan bakar memiliki satu kategori | Lolos | 6 jenis bahan bakar diperiksa. |
+| Kolom wajib Gold tersedia | Lolos | Semua kolom wajib tersedia. |
+| Kunci provinsi-periode-indikator Gold unik | Lolos | 0 baris duplikat ditemukan. |
+| Penanda outlier dan patahan Gold tersedia | Lolos | 135 baris ditandai outlier; status patahan dan catatannya tersedia. |
