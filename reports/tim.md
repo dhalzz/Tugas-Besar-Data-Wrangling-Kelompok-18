@@ -55,15 +55,43 @@ Temuan Sprint 1 berasal dari Silver (4.830 baris) dan `log-keputusan.csv` (K-001
 Jalankan `python hitung_ulang_tim.py <folder berisi data/silver dan log-keputusan.csv>`; `python bangun_draf_masalah.py <folder yang sama>` menulis ulang tabel ini.
 
 ## Integrasi dan rekonsiliasi
-Rekonsiliasi dilakukan dengan membandingkan seri utama BPS dan seri pembanding dari World Development Indicators (WDI). Dua pasangan indikator yang digunakan adalah `var87` dengan `EG.ELC.ACCS.ZS` untuk indikator akses listrik, serta agregat bahan bakar bersih BPS (Listrik + Gas/Elpiji) dengan `EG.CFT.ACCS.ZS` dari WDI.
+Rekonsiliasi tingkat nasional menyandingkan seri utama BPS (menggunakan baris `INDONESIA` berkode `9999`, tanpa agregasi provinsi; `K-031`) dengan seri pembanding World Development Indicators (WDI) dari `data/gold/tabel_nasional.parquet` (187 baris; `K-033` s.d. `K-035`). Hasilnya disimpan pada `data/gold/tabel_rekonsiliasi.parquet` dan `data/gold/tabel_rekonsiliasi.csv` (60 baris total: 47 baris berpasangan dan 13 baris tanpa pasangan; `K-036`, `K-037`), serta dimuat ke tabel `gold_rekonsiliasi` pada `data/gold/gold.sqlite`. Selisih dihitung sebagai `nilai_utama - nilai_pembanding` (dalam poin persentase) dan **tidak dihapus atau disesuaikan** agar perbedaan antar-sumber tetap transparan (`K-035`, `K-037`).
 
-Hasil rekonsiliasi menghasilkan 60 baris, terdiri dari 35 baris pasangan indikator listrik dan 25 baris pasangan indikator bahan bakar bersih. Dari seluruh baris tersebut, terdapat 47 periode yang memiliki kedua nilai sehingga dapat dihitung selisihnya, sedangkan 13 baris lainnya tetap dipertahankan karena salah satu sumber tidak menerbitkan data pada periode tersebut.
+### Pasangan yang dibandingkan
+| Pasangan | Seri utama (BPS) | Seri pembanding (WDI) | Periode tersedia | Total baris | Berpasangan | Tanpa pasangan | Log |
+|---|---|---|---|---:|---:|---:|---|
+| `listrik` | `var87`: persentase rumah tangga dengan sumber penerangan utama listrik PLN (Susenas Maret) | `EG.ELC.ACCS.ZS`: persentase penduduk dengan akses listrik dari seluruh sumber | BPS: 1993–2025 (32 tahun, tanpa 2005); WDI: 1991–2024 (34 tahun; 32 dari 66 baris mentah kosong dikeluarkan) | 35 | 31 (1993–2004, 2006–2024) | 4 (1991, 1992, 2005 hanya WDI; 2025 hanya BPS) | K-031, K-034, K-035 |
+| `bahan_bakar_bersih` | `tabel:sdg7_bahan_bakar (Listrik + Gas/Elpiji)`: penjumlahan rincian `Listrik` dan `Gas/Elpiji` (% rumah tangga); mengecualikan `Minyak Tanah`, `Kayu`, `Arang/Briket`, `Lainnya`, dan `Jumlah` | `EG.CFT.ACCS.ZS`: persentase penduduk dengan bahan bakar dan teknologi memasak bersih (pedoman WHO / Tracking SDG 7; mengecualikan minyak tanah) | BPS: 2001, 2007–2021 (16 tahun terbit; 96 baris rincian di `tabel_nasional`); WDI: 2000–2024 (25 tahun; 41 dari 66 baris mentah kosong dikeluarkan) | 25 | 16 (2001, 2007–2021) | 9 (2000, 2002–2006, 2022–2024 hanya WDI) | K-032, K-034, K-036 |
 
-Pada periode yang memiliki pasangan nilai, selisih dihitung dari nilai seri utama dikurangi nilai seri pembanding. Hasil klasifikasi menunjukkan 41 baris dengan perbedaan definisi, 3 baris dengan perbedaan cakupan, dan 3 baris dengan perbedaan metode. Sebanyak 13 baris tanpa pasangan tidak memiliki nilai selisih maupun kategori penjelasan karena tidak tersedia dua nilai untuk dibandingkan.
+### Besar selisih (`nilai_utama - nilai_pembanding`)
+| Pasangan | Baris berpasangan | Arah selisih | Minimum (periode; BPS vs WDI) | Maksimum (periode; BPS vs WDI) | Rata-rata selisih | Median selisih | Rata-rata \|selisih\| |
+|---|---:|---|---|---|---|---|---|
+| `listrik` | 31 | 31 negatif, 0 positif (`var87` selalu di bawah WDI) | -6,53 poin (1997; 73,77% vs 80,30%) | -0,05 poin (2020; 96,95% vs 97,00%) | -2,97 poin | -2,82 poin | 2,97 poin |
+| `bahan_bakar_bersih` | 16 | 8 negatif, 8 positif | -9,57 poin (2007; 12,43% vs 22,00%) | +5,14 poin (2001; 11,14% vs 6,00%) | -0,77 poin | -0,03 poin | 2,23 poin |
 
-Hasil rekonsiliasi disimpan dalam `data/gold/tabel_rekonsiliasi.parquet` dan `data/gold/tabel_rekonsiliasi.csv`. Setiap baris juga menyimpan informasi sumber berkas asal untuk mendukung keterlacakan data.
+- **Pasangan `listrik`:** Selisih terbesar terjadi pada awal seri (`1997`: -6,53 poin; `1994`: -5,29 poin), kemudian menyempit seiring naiknya elektrifikasi nasional menjadi -2,27 s.d. -1,47 poin pada 2021–2024 (`2021`: -1,94; `2022`: -2,27; `2023`: -1,47; `2024`: -1,66; sejalan dengan catatan `K-035`).
+- **Pasangan `bahan_bakar_bersih`:** Selisih absolut terbesar muncul pada awal seri dan transisi cepat elpiji (`2001`: +5,14 poin; `2007`: -9,57 poin; `2008`: -8,26 poin). Mulai 2009–2021, kedua seri bergerak sangat rapat dengan selisih antara -1,88 poin (`2021`) hingga +1,97 poin (`2009`), dan selisih absolut terkecil 0,23 poin pada 2016 (73,23% vs 73,00%).
 
-Analisis revisi WDI belum dapat dilakukan karena arsip snapshot versi sebelumnya belum ditemukan pada berkas tambahan yang diperiksa. Oleh karena itu, rekonsiliasi menggunakan snapshot WDI tanggal 20 Oktober 2026 sebagai data pembanding. Perubahan nilai antarversi WDI belum dapat disimpulkan dan menjadi keterbatasan analisis.
+### Penjelasan setiap kategori rekonsiliasi
+| Kategori (`kategori_penjelasan`) | Jumlah baris | Pasangan & periode | Rentang selisih (rata-rata; median) | Penjelasan |
+|---|---:|---|---|---|
+| `definisi berbeda` | 41 | `listrik`: 28 baris (1993–1999, 2003–2004, 2006–2024); `bahan_bakar_bersih`: 13 baris (2009–2021) | `listrik`: -6,53 s.d. -0,05 (-3,03; -2,86); `bahan_bakar_bersih`: -1,88 s.d. +1,97 (+0,02; +0,23) | Perbedaan definisi konsep dan denominator. `var87` hanya menghitung penerangan utama listrik PLN per rumah tangga, sedangkan `EG.ELC.ACCS.ZS` menghitung seluruh sumber listrik per penduduk. Pada bahan bakar bersih, agregat BPS (`Listrik + Gas/Elpiji`) berdenominator rumah tangga, sedangkan `EG.CFT.ACCS.ZS` berdenominator penduduk dan memakai model Tracking SDG 7/WHO. |
+| `cakupan berbeda` | 3 | `listrik`: 3 baris (2000, 2001, 2002) | -2,82 s.d. -2,22 (-2,46; -2,33) — `2000`: -2,33; `2001`: -2,82; `2002`: -2,22 | Catatan Susenas BPS pada periode tersebut memiliki cakupan pencacahan wilayah tidak penuh: 2000 tidak mencacah Aceh dan Maluku, 2001 tanpa Aceh, dan 2002 hanya ibu kota provinsi untuk Aceh, Maluku, Maluku Utara, serta Papua—ditambah perbedaan definisi PLN/rumah tangga vs seluruh listrik/penduduk. |
+| `metode berbeda` | 3 | `bahan_bakar_bersih`: 3 baris (2001, 2007, 2008) | -9,57 s.d. +5,14 (-4,23; -8,26) — `2001`: +5,14; `2007`: -9,57; `2008`: -8,26 | Terjadi pada awal seri dan masa transisi cepat konversi minyak tanah ke elpiji (pada `tabel_nasional`, `Gas/Elpiji` naik dari 10,57% pada 2007 menjadi 18,68% pada 2008 dan 35,54% pada 2009, sementara `Minyak Tanah` turun dari 36,57% ke 30,89% dan 18,14%). BPS mencatat hasil survei Susenas tahunan langsung, sedangkan WDI/WHO memakai estimasi model yang dimuluskan (*smoothed*). |
+| `vintage berbeda` | 0 | — | — | Kategori disediakan dalam skema (`src/gold/rekonsiliasi.py`), namun belum dapat diuji karena hanya tersedia satu snapshot WDI (20 Oktober 2026) dan satu snapshot BPS (17 Oktober 2026). |
+| `belum terjelaskan` | 0 | — | — | Seluruh 47 baris berpasangan telah terklasifikasi ke kategori di atas. |
+| *(Tanpa kategori / tidak berpasangan)* | 13 | `listrik`: 4 baris (1991, 1992, 2005, 2025); `bahan_bakar_bersih`: 9 baris (2000, 2002–2006, 2022–2024) | Selisih kosong | Salah satu sumber tidak menerbitkan data pada periode tersebut (`var87` tidak terbit pada 1991–1992 dan 2005; WDI `EG.ELC.ACCS.ZS` belum terbit untuk 2025; `sdg7_bahan_bakar` hanya terbit 2001 dan 2007–2021). Baris tetap dipertahankan dengan selisih kosong (`K-037`). |
+
+Analisis revisi antar-snapshot WDI belum dapat dilakukan karena arsip rilis WDI versi sebelumnya belum tersedia pada paket data yang diperiksa. Oleh karena itu, rekonsiliasi menggunakan snapshot WDI tanggal 20 Oktober 2026 sebagai pembanding, dan pengaruh perubahan revisi antarversi (`vintage berbeda`) menjadi keterbatasan yang dicatat untuk tahap skala berikutnya.
+
+### Temuan terpenting (bahan demo Sprint 2)
+1. **Akses listrik BPS selalu di bawah WDI:** Pada semua 31 tahun berpasangan (1993–2004, 2006–2024), `var87` lebih rendah 0,05 s.d. 6,53 poin (rata-rata -2,97 poin) karena hanya mencakup listrik PLN per rumah tangga, sedangkan WDI mencakup seluruh sumber listrik per penduduk.
+2. **Transisi konversi minyak tanah ke elpiji memicu selisih metode terbesar:** Selisih bahan bakar bersih memuncak hingga -9,57 poin (2007) dan -8,26 poin (2008) akibat perbedaan survei langsung BPS vs kurva model *smoothed* WDI/WHO saat transisi cepat, lalu menyempit ke -1,88 s.d. +1,97 poin pada 2009–2021.
+3. **Cakupan Susenas 2000–2002 terdokumentasi eksplisit:** Tiga baris berpasangan listrik pada 2000–2002 dipisahkan ke kategori `cakupan berbeda` (selisih -2,22 s.d. -2,82 poin) sesuai catatan pencacahan tidak penuh pada wilayah Aceh, Maluku, Maluku Utara, dan Papua.
+4. **Tidak ada koreksi paksa antar-sumber:** Seluruh 47 baris berpasangan dijelaskan per kategori dan 13 periode tanpa pasangan tetap dipertahankan dengan selisih kosong (`K-037`).
+
+### Cara menarik ulang angka
+Seluruh angka pada bagian ini dapat ditarik langsung dari `data/gold/tabel_rekonsiliasi.csv` (atau `.parquet`), `data/gold/tabel_nasional.csv` (atau `.parquet`), dan `log-keputusan.csv` (`K-031` s.d. `K-037`), atau dibentuk ulang dari nol melalui `python pipeline.py` (`src/gold/nasional.py` dan `src/gold/rekonsiliasi.py`).
 
 ## Validasi dan reproduksibilitas
 Pipeline dijalankan menggunakan perintah `python pipeline.py` setelah pemeriksaan kesesuaian berkas mentah dengan `MANIFEST.csv`. Dari 9 berkas mentah yang diperiksa, seluruhnya dinyatakan sesuai dengan nilai SHA-256 pada manifest.
