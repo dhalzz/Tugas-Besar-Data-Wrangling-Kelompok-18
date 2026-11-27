@@ -190,32 +190,32 @@ def agregasi_bahan_bakar(df, grid):
 
     return pd.concat(hasil, ignore_index=True)
 
+
 def tandai_outlier(gold, root):
     """Bawa kandidat outlier Sprint 1 ke tabel Gold."""
     hasil = gold.copy()
 
-    hasil["wilayah_normal"] = hasil["nama_wilayah"].apply(
+    hasil["wilayah_normal"] = hasil["nama_provinsi"].apply(
         normalisasi_wilayah
     )
 
-    # Kandidat anomali listrik.
     listrik = pd.read_csv(
         root / "reports" / "calon_anomali_var87.csv"
     )
-
     listrik["wilayah_normal"] = listrik["wilayah"].apply(
         normalisasi_wilayah
     )
 
     kunci_listrik = set(
-        zip(listrik["wilayah_normal"], listrik["tahun"].astype(int))
+        zip(
+            listrik["wilayah_normal"],
+            listrik["tahun"].astype(int),
+        )
     )
 
-    # Kandidat anomali bahan bakar.
     bahan = pd.read_csv(
         root / "reports" / "calon_anomali_bahan_bakar.csv"
     )
-
     bahan["wilayah_normal"] = bahan["wilayah"].apply(
         normalisasi_wilayah
     )
@@ -238,7 +238,13 @@ def tandai_outlier(gold, root):
         if baris["indikator"] == "bahan_bakar_bersih":
             rincian = ["Listrik", "Gas/Elpiji"]
         elif baris["indikator"] == "bahan_bakar_tidak_bersih":
-            rincian = ["Kayu", "Arang/Briket", "Minyak Tanah"]
+            rincian = [
+                "Kayu",
+                "Arang/Briket",
+                "Minyak Tanah",
+            ]
+        elif baris["indikator"] == "bahan_bakar_lainnya":
+            rincian = ["Lainnya"]
         else:
             return False
 

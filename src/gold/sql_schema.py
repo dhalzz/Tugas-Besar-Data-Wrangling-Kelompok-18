@@ -17,27 +17,29 @@ CREATE TABLE silver (
 );
 """
 
+
+
 DDL_GOLD_PANEL = """
 CREATE TABLE gold_panel (
     wilayah_kode INTEGER NOT NULL,
-    nama_wilayah TEXT NOT NULL,
+    nama_provinsi TEXT NOT NULL,
     periode TEXT NOT NULL,
     indikator TEXT NOT NULL,
-    kategori TEXT NOT NULL,
     nilai REAL,
     satuan TEXT NOT NULL,
-    jenis_periode TEXT NOT NULL,
+    _lineage_silver TEXT,
+    status_data TEXT NOT NULL,
     sebelum_provinsi_ada INTEGER NOT NULL,
     tahun_tidak_diterbitkan INTEGER NOT NULL,
     sel_kosong_dalam_terbitan INTEGER NOT NULL,
     missing_sejati INTEGER NOT NULL,
-    rincian_missing TEXT NOT NULL,
     status_patahan TEXT NOT NULL,
     catatan_patahan TEXT NOT NULL,
     outlier INTEGER NOT NULL,
     PRIMARY KEY (wilayah_kode, periode, indikator)
 );
 """
+
 
 DDL_GOLD_NASIONAL = """
 CREATE TABLE gold_nasional (

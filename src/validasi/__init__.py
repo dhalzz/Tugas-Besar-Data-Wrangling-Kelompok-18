@@ -238,6 +238,10 @@ def jalankan(silver, gold=None):
             "outlier",
             "status_patahan",
             "catatan_patahan",
+            "sebelum_provinsi_ada",
+            "tahun_tidak_diterbitkan",
+            "sel_kosong_dalam_terbitan",
+            "missing_sejati",
         }
 
         kolom_hilang = sorted(
@@ -280,38 +284,41 @@ def jalankan(silver, gold=None):
                 ),
             })
 
-            # Aturan 8: validasi penanda outlier dan patahan Gold.
+            # Aturan 8: validasi penanda outlier, patahan, dan grid Gold.
 
-            # Outlier harus bertipe Boolean dan tidak boleh kosong.
             outlier_valid = (
                 pd.api.types.is_bool_dtype(gold["outlier"])
                 and gold["outlier"].notna().all()
             )
 
-            # Status patahan tidak boleh kosong atau hanya spasi.
             status_patahan_valid = (
                 gold["status_patahan"].notna().all()
-                and gold["status_patahan"]
-                .astype(str)
-                .str.strip()
-                .ne("")
-                .all()
+                and gold["status_patahan"].astype(str).str.strip().ne("").all()
             )
 
-            # Catatan patahan tidak boleh kosong atau hanya spasi.
             catatan_patahan_valid = (
                 gold["catatan_patahan"].notna().all()
-                and gold["catatan_patahan"]
-                .astype(str)
-                .str.strip()
-                .ne("")
-                .all()
+                and gold["catatan_patahan"].astype(str).str.strip().ne("").all()
+            )
+
+            kolom_penanda = [
+                "sebelum_provinsi_ada",
+                "tahun_tidak_diterbitkan",
+                "sel_kosong_dalam_terbitan",
+                "missing_sejati",
+            ]
+
+            penanda_grid_valid = all(
+                pd.api.types.is_bool_dtype(gold[kolom])
+                and gold[kolom].notna().all()
+                for kolom in kolom_penanda
             )
 
             penanda_valid = (
                 outlier_valid
                 and status_patahan_valid
                 and catatan_patahan_valid
+                and penanda_grid_valid
             )
 
             jumlah_outlier = (
@@ -321,30 +328,14 @@ def jalankan(silver, gold=None):
             )
 
             hasil.append({
-                "aturan": "Penanda outlier dan patahan Gold valid",
+                "aturan": "Penanda outlier, patahan, dan grid Gold valid",
                 "lolos": penanda_valid,
                 "keterangan": (
                     f"{jumlah_outlier} baris ditandai outlier; "
-                    f"tipe outlier valid: {outlier_valid}; "
+                    f"outlier valid: {outlier_valid}; "
                     f"status patahan valid: {status_patahan_valid}; "
-                    f"catatan patahan valid: {catatan_patahan_valid}."
-                ),
-            })
-
-        else:
-            hasil.append({
-                "aturan": "Kunci provinsi-periode-indikator Gold unik",
-                "lolos": False,
-                "keterangan": (
-                    "Tidak diperiksa karena kolom wajib belum lengkap."
-                ),
-            })
-
-            hasil.append({
-                "aturan": "Penanda outlier dan patahan Gold valid",
-                "lolos": False,
-                "keterangan": (
-                    "Tidak diperiksa karena kolom wajib belum lengkap."
+                    f"catatan patahan valid: {catatan_patahan_valid}; "
+                    f"empat penanda grid valid: {penanda_grid_valid}."
                 ),
             })
 

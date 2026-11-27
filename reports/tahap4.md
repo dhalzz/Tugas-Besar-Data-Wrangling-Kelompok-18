@@ -40,6 +40,22 @@ Hasil pemeriksaan Gold:
 - Baris dengan status patahan tersedia: 2.682.
 - Catatan patahan kosong: 0.
 
+## 3.1 Pewarisan Penanda Grid dan Missing
+
+Pembentukan Gold mempertahankan seluruh kombinasi provinsi dan periode yang dihasilkan dari grid Silver. Baris dengan kondisi sebelum provinsi terbentuk dan tahun tidak diterbitkan tidak dihapus dari panel Gold.
+
+Empat penanda yang dipertahankan adalah:
+- `sebelum_provinsi_ada`
+- `tahun_tidak_diterbitkan`
+- `sel_kosong_dalam_terbitan`
+- `missing_sejati`
+
+Penanda tersebut disimpan sebagai kolom Boolean pada panel Gold. Untuk indikator bahan bakar, penanda diwariskan dari komponen penyusunnya. Jika salah satu komponen memiliki penanda tertentu, informasi tersebut tetap dicatat pada indikator agregat.
+
+Hasil pemeriksaan menunjukkan terdapat 240 baris dengan penanda sebelum provinsi ada, 378 baris dengan penanda tahun tidak diterbitkan, dan 46 baris dengan penanda missing sejati. Jumlah penanda dapat saling tumpang tindih sehingga tidak dijumlahkan sebagai jumlah baris unik.
+
+Keempat kolom penanda berhasil disimpan pada `data/gold/panel.parquet` dan tabel `gold_panel` dalam `data/gold/gold.sqlite`.
+
 ## 4. Hasil Pembentukan Gold
 
 Pembentukan panel Gold menghasilkan 2.682 baris dengan rincian:
