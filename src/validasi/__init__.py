@@ -1,9 +1,8 @@
 """Aturan validasi dasar untuk keluaran Silver."""
-
 from __future__ import annotations
 
 from pathlib import Path
-
+import json
 import pandas as pd
 import pandera.pandas as pa
 from pandera import Check
@@ -32,7 +31,7 @@ def buat_laporan(hasil):
     tujuan.parent.mkdir(parents=True, exist_ok=True)
 
     isi = [
-        "# Laporan Validasi Silver",
+        "# Laporan Validasi Silver dan Gold",
         "",
         "Dibuat otomatis saat `python pipeline.py` dijalankan.",
         "",
@@ -283,6 +282,194 @@ def jalankan(silver, gold=None):
                 "keterangan": "Tidak diperiksa karena kolom wajib belum lengkap.",
             })
 
+
+    # Aturan 9, 10, dan 11: verifikasi lineage dan komponen Gold.
+    if gold is not None:
+        kolom_lineage = {
+            "wilayah_kode",
+            "periode",
+            "seri_kode",
+            "rincian",
+            "_berkas_raw",
+            "_sha256_raw",
+        }
+
+        kolom_silver_lineage = kolom_lineage
+
+        struktur_lineage_lengkap = (
+            kolom_silver_lineage.issubset(silver.columns)
+            and {"_lineage_silver", "status_data", "indikator"}.issubset(
+                gold.columns
+            )
+        )
+
+        # Siapkan indeks identitas sumber Silver beserta nilainya.
+        indeks_silver = {}
+
+        if struktur_lineage_lengkap:
+            for _, r in silver.iterrows():
+                identitas = (
+                    int(r["wilayah_kode"]),
+                    str(r["periode"]),
+                    str(r["seri_kode"]),
+                    str(r["rincian"]),
+                    str(r["_berkas_raw"]),
+                    str(r["_sha256_raw"]),
+                )
+                indeks_silver.setdefault(identitas, []).append(r["nilai"])
+
+        # Baca JSON lineage setiap baris Gold.
+        lineage_gold = []
+        jumlah_json_invalid = 0
+
+        for raw in gold.get("_lineage_silver", pd.Series(dtype=object)):
+            try:
+                daftar = json.loads(raw) if isinstance(raw, str) else None
+
+                if not isinstance(daftar, list):
+                    raise ValueError("Lineage bukan daftar.")
+
+                if not all(isinstance(x, dict) for x in daftar):
+                    raise ValueError("Isi lineage tidak valid.")
+
+                lineage_gold.append(daftar)
+
+            except (ValueError, TypeError, json.JSONDecodeError):
+                lineage_gold.append([])
+                jumlah_json_invalid += 1
+
+        # Aturan 9: setiap referensi lineage harus cocok dengan Silver.
+        total_referensi = 0
+        referensi_tidak_cocok = 0
+
+        if struktur_lineage_lengkap:
+            for i, daftar in enumerate(lineage_gold):
+                wilayah = int(gold.iloc[i]["wilayah_kode"])
+                periode = str(gold.iloc[i]["periode"])
+
+                for sumber in daftar:
+                    total_referensi += 1
+
+                    try:
+                        identitas = (
+                            wilayah,
+                            periode,
+                            str(sumber["seri_kode"]),
+                            str(sumber["rincian"]),
+                            str(sumber["_berkas_raw"]),
+                            str(sumber["_sha256_raw"]),
+                        )
+
+                        if identitas not in indeks_silver:
+                            referensi_tidak_cocok += 1
+
+                    except (KeyError, TypeError, ValueError):
+                        referensi_tidak_cocok += 1
+
+        else:
+            referensi_tidak_cocok = 1
+
+        referensi_valid = (
+            struktur_lineage_lengkap
+            and referensi_tidak_cocok == 0
+            and jumlah_json_invalid == 0
+        )
+
+        hasil.append({
+            "aturan": "Seluruh referensi lineage Gold cocok dengan Silver",
+            "lolos": referensi_valid,
+            "keterangan": (
+                f"{total_referensi} referensi diperiksa; "
+                f"{referensi_tidak_cocok} tidak cocok; "
+                f"{jumlah_json_invalid} JSON lineage tidak valid."
+            ),
+        })
+
+        # Aturan 10: setiap nilai tersedia wajib memiliki lineage.
+        tanpa_lineage = 0
+
+        if "status_data" in gold.columns:
+            for i, (_, r) in enumerate(gold.iterrows()):
+                if r["status_data"] == "tersedia":
+                    if i >= len(lineage_gold) or not lineage_gold[i]:
+                        tanpa_lineage += 1
+
+        else:
+            tanpa_lineage = len(gold)
+
+        hasil.append({
+            "aturan": "Nilai Gold tersedia memiliki lineage",
+            "lolos": tanpa_lineage == 0,
+            "keterangan": (
+                f"{tanpa_lineage} baris tersedia tanpa lineage."
+            ),
+        })
+
+        # Aturan 11: seluruh komponen indikator tersedia harus ditemukan.
+        komponen_gold = {
+            "elektrifikasi": ["elektrifikasi"],
+            "bahan_bakar_bersih": ["Listrik", "Gas/Elpiji"],
+            "bahan_bakar_lainnya": ["Lainnya"],
+            "bahan_bakar_tidak_bersih": [
+                "Kayu",
+                "Arang/Briket",
+                "Minyak Tanah",
+            ],
+        }
+
+        komponen_tidak_lengkap = 0
+
+        if struktur_lineage_lengkap:
+            for i, (_, r) in enumerate(gold.iterrows()):
+                if r["status_data"] != "tersedia":
+                    continue
+
+                daftar = (
+                    lineage_gold[i]
+                    if i < len(lineage_gold)
+                    else []
+                )
+
+                wilayah = int(r["wilayah_kode"])
+                periode = str(r["periode"])
+                komponen = komponen_gold.get(r["indikator"], [])
+
+                for rincian in komponen:
+                    ditemukan = False
+
+                    for sumber in daftar:
+                        if str(sumber.get("rincian")) != rincian:
+                            continue
+
+                        identitas = (
+                            wilayah,
+                            periode,
+                            str(sumber.get("seri_kode")),
+                            str(sumber.get("rincian")),
+                            str(sumber.get("_berkas_raw")),
+                            str(sumber.get("_sha256_raw")),
+                        )
+
+                        nilai_silver = indeks_silver.get(identitas, [])
+
+                        if any(pd.notna(nilai) for nilai in nilai_silver):
+                            ditemukan = True
+                            break
+
+                    if not ditemukan:
+                        komponen_tidak_lengkap += 1
+
+        else:
+            komponen_tidak_lengkap = 1
+
+        hasil.append({
+            "aturan": "Komponen pembentuk nilai Gold tersedia dan lengkap",
+            "lolos": komponen_tidak_lengkap == 0,
+            "keterangan": (
+                f"{komponen_tidak_lengkap} komponen pada nilai Gold "
+                "tersedia tidak memiliki sumber bernilai."
+            ),
+        })
 
     laporan = buat_laporan(hasil)
 
