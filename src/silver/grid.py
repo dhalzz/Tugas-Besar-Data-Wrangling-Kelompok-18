@@ -24,7 +24,7 @@ SERI = {
     "var87": {
         "sumber": "bps", "seri_kode": "var87", "satuan": "persen",
         "tahun_awal": 1993, "tahun_akhir": 2025,
-        "berkas_raw": "bps/var87_long.csv", "jenis": "listrik",
+        "berkas_raw": "bps/2026-10-17/sdg7_listrik_pln.csv", "jenis": "listrik",
     },
     "sdg7_bahan_bakar": {
         "sumber": "bps", "seri_kode": "tabel:sdg7_bahan_bakar", "satuan": "persen",
@@ -34,7 +34,11 @@ SERI = {
 }
 
 PROVINSI_2023 = {"Papua Selatan", "Papua Tengah", "Papua Pegunungan", "Papua Barat Daya"}
-ALIAS = {"KEPULAUANBANGKABELITUNG": "KEPBANGKABELITUNG", "KEPULAUANRIAU": "KEPRIAU"}
+ALIAS = {
+    "KEPULAUANBANGKABELITUNG": "KEPBANGKABELITUNG",
+    "KEPULAUANRIAU": "KEPRIAU",
+    "DIYOGYAKARTA3": "DIYOGYAKARTA",
+}
 
 
 def norm(s: str) -> str:
