@@ -174,6 +174,7 @@ def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
 
     return pd.DataFrame(hasil)
 
+import pandas as pd
 
 def jalankan(silver):
     """Bentuk dan simpan panel Gold dari DataFrame Silver."""

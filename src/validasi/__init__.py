@@ -125,10 +125,10 @@ def periksa_silver(silver: pd.DataFrame, hasil: list[dict]) -> None:
                 nullable=True,
                 checks=Check.in_range(BATAS_PERSEN_MIN, BATAS_PERSEN_MAKS),
             )
-        },
-        strict=False,
-        coerce=True,
-    )
+    },
+    strict=False,
+    coerce=True,
+)
 
     try:
         skema_persen.validate(data_persen, lazy=True)

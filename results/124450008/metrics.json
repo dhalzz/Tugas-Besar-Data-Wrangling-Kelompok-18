@@ -1,4 +1,4 @@
-﻿{
+{
   "metrik": {
     "berkas_dibaca": 9,
     "baris_mentah": 10009,
@@ -8,7 +8,8 @@
     "tahun_tidak_diterbitkan": 1228,
     "outlier_ditandai": 0,
     "pasangan_rekonsiliasi": 2,
-    "periode_beririsan": 47
+    "periode_beririsan": 47,
+    "selisih_median": -2.27
   },
   "seed": 0,
   "data_hash": "df25bcab9a80e523135ae39394f105fc94c726c22e8c42779f102f50983ab52c",
