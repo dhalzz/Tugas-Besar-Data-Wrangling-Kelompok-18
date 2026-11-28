@@ -2,23 +2,27 @@
 """Tahap Gold: pembentukan panel provinsi x tahun x indikator."""
 
 from pathlib import Path
+from . import nasional, rekonsiliasi, muat_sql
 import json
 
 import pandas as pd
 
 from src.silver import grid
+from src.gold.pemilihan import tandai_outlier
 
 ROOT = Path(__file__).resolve().parents[2]
 GOLD_DIR = ROOT / "data" / "gold"
 
 KOMPONEN = {
-    "bahan_bakar_bersih": ["Listrik", "Gas/Elpiji"],
+    "bahan_bakar_bersih": [
+        "Listrik",
+        "Gas/Elpiji",
+    ],
     "bahan_bakar_tidak_bersih": [
         "Kayu",
         "Arang/Briket",
         "Minyak Tanah",
     ],
-    "bahan_bakar_lainnya": ["Lainnya"],
 }
 
 
@@ -56,7 +60,7 @@ def _simpan_lineage(baris_sumber):
 
 
 def _buat_listrik(silver, dim, mulai, peta_lineage):
-    """Bentuk panel indikator elektrifikasi dari grid listrik."""
+    """Bentuk panel elektrifikasi dengan mempertahankan penanda grid."""
     cfg = grid.SERI["var87"]
 
     panel = grid.grid_seri(
@@ -66,13 +70,14 @@ def _buat_listrik(silver, dim, mulai, peta_lineage):
         cfg,
     )
 
-    # Hanya ambil provinsi yang sudah terbentuk dan tahun yang diterbitkan.
-    panel = panel[
-        ~panel["sebelum_provinsi_ada"]
-        & ~panel["tahun_tidak_diterbitkan"]
-    ].copy()
-
     hasil = []
+
+    kolom_penanda = [
+        "sebelum_provinsi_ada",
+        "tahun_tidak_diterbitkan",
+        "sel_kosong_dalam_terbitan",
+        "missing_sejati",
+    ]
 
     for _, r in panel.iterrows():
         kunci = (
@@ -83,7 +88,7 @@ def _buat_listrik(silver, dim, mulai, peta_lineage):
 
         lineage = peta_lineage.get(kunci, [])
 
-        hasil.append({
+        baris = {
             "wilayah_kode": int(r["wilayah_kode"]),
             "nama_provinsi": r["nama_provinsi"],
             "periode": str(r["periode"]),
@@ -91,18 +96,27 @@ def _buat_listrik(silver, dim, mulai, peta_lineage):
             "nilai": r["nilai"],
             "satuan": "persen",
             "_lineage_silver": _simpan_lineage(lineage),
-            "status_data": (
-                "tersedia"
-                if pd.notna(r["nilai"])
-                else "missing_sejati"
-            ),
-        })
+        }
+
+        for kolom in kolom_penanda:
+            baris[kolom] = bool(r[kolom])
+
+        if baris["sebelum_provinsi_ada"]:
+            baris["status_data"] = "sebelum_provinsi_ada"
+        elif baris["tahun_tidak_diterbitkan"]:
+            baris["status_data"] = "tahun_tidak_diterbitkan"
+        elif baris["missing_sejati"]:
+            baris["status_data"] = "missing_sejati"
+        else:
+            baris["status_data"] = "tersedia"
+
+        hasil.append(baris)
 
     return pd.DataFrame(hasil)
 
 
 def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
-    """Bentuk panel bahan bakar bersih, tidak bersih, dan lainnya."""
+    """Bentuk indikator bahan bakar dengan mempertahankan penanda grid."""
     cfg = grid.SERI["sdg7_bahan_bakar"]
 
     panel = grid.grid_seri(
@@ -112,13 +126,14 @@ def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
         cfg,
     )
 
-    # Tahun yang tidak diterbitkan dan periode sebelum provinsi ada dikeluarkan.
-    panel = panel[
-        ~panel["sebelum_provinsi_ada"]
-        & ~panel["tahun_tidak_diterbitkan"]
-    ].copy()
-
     hasil = []
+
+    kolom_penanda = [
+        "sebelum_provinsi_ada",
+        "tahun_tidak_diterbitkan",
+        "sel_kosong_dalam_terbitan",
+        "missing_sejati",
+    ]
 
     for (kode, nama, periode), grup in panel.groupby(
         ["wilayah_kode", "nama_provinsi", "periode"],
@@ -145,19 +160,16 @@ def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
                 else float("nan")
             )
 
+            bagian = grup[
+                grup["rincian"].isin(komponen)
+            ]
+
             lineage = []
-
             for jenis in komponen:
-                kunci = (
-                    int(kode),
-                    str(periode),
-                    jenis,
-                )
-                lineage.extend(
-                    peta_lineage.get(kunci, [])
-                )
+                kunci = (int(kode), str(periode), jenis)
+                lineage.extend(peta_lineage.get(kunci, []))
 
-            hasil.append({
+            baris = {
                 "wilayah_kode": int(kode),
                 "nama_provinsi": nama,
                 "periode": str(periode),
@@ -165,36 +177,42 @@ def _buat_bahan_bakar(silver, dim, mulai, peta_lineage):
                 "nilai": nilai_gold,
                 "satuan": "persen",
                 "_lineage_silver": _simpan_lineage(lineage),
-                "status_data": (
-                    "tersedia"
-                    if lengkap
-                    else "missing_sejati"
-                ),
-            })
+            }
+
+            for kolom in kolom_penanda:
+                baris[kolom] = bool(bagian[kolom].any())
+
+            if baris["sebelum_provinsi_ada"]:
+                baris["status_data"] = "sebelum_provinsi_ada"
+            elif baris["tahun_tidak_diterbitkan"]:
+                baris["status_data"] = "tahun_tidak_diterbitkan"
+            elif baris["missing_sejati"]:
+                baris["status_data"] = "missing_sejati"
+            elif lengkap:
+                baris["status_data"] = "tersedia"
+            else:
+                baris["status_data"] = "komponen_tidak_lengkap"
+
+            hasil.append(baris)
 
     return pd.DataFrame(hasil)
 
 import pandas as pd
 
-def jalankan(silver):
-    """Bentuk dan simpan panel Gold dari DataFrame Silver."""
+
+def jalankan(silver, mentah):
+    """Bentuk panel Gold, tabel nasional, rekonsiliasi, dan SQLite."""
     GOLD_DIR.mkdir(parents=True, exist_ok=True)
 
     dim, mulai = grid.muat_referensi()
     peta_lineage = _buat_peta_lineage(silver)
 
     listrik = _buat_listrik(
-        silver,
-        dim,
-        mulai,
-        peta_lineage,
+        silver, dim, mulai, peta_lineage
     )
 
     bahan_bakar = _buat_bahan_bakar(
-        silver,
-        dim,
-        mulai,
-        peta_lineage,
+        silver, dim, mulai, peta_lineage
     )
 
     gold = pd.concat(
@@ -206,31 +224,83 @@ def jalankan(silver):
         ["wilayah_kode", "periode", "indikator"]
     ).reset_index(drop=True)
 
-    kunci = [
-        "wilayah_kode",
-        "periode",
-        "indikator",
-    ]
-
-    if gold.duplicated(kunci).any():
+    # Pastikan kunci panel Gold unik.
+    kunci = ["wilayah_kode", "periode", "indikator"]
+    if gold.duplicated(subset=kunci).any():
         raise ValueError("Kunci panel Gold tidak unik.")
 
-    jalur = GOLD_DIR / "panel.parquet"
-    gold.to_parquet(jalur, index=False)
+    # Tambahkan status audit patahan Sprint 1.
+    gold["status_patahan"] = "tidak_terkonfirmasi"
+    gold["catatan_patahan"] = (
+        "Tidak ditemukan bukti patahan seri yang terkonfirmasi "
+        "berdasarkan audit Sprint 1. Perubahan ekstrem lokal "
+        "dipertahankan dan ditandai sebagai kandidat outlier "
+        "sesuai keputusan K-017, K-020, dan K-021."
+    )
+
+    # Tandai kandidat outlier Sprint 1.
+    gold = tandai_outlier(gold, ROOT)
+
+    # Simpan panel Gold.
+    gold.to_parquet(GOLD_DIR / "panel.parquet", index=False)
+
+    # Bangun tabel nasional dari Silver dan hasil ekstraksi.
+    nas = nasional.bangun_nasional(silver, mentah)
+
+    nas.to_parquet(
+        GOLD_DIR / "tabel_nasional.parquet",
+        index=False,
+    )
+    nas.to_csv(
+        GOLD_DIR / "tabel_nasional.csv",
+        index=False,
+    )
+
+    # Bangun tabel rekonsiliasi BPS-WDI.
+    rek = rekonsiliasi.bangun_rekonsiliasi(nas)
+
+    rek.to_parquet(
+        GOLD_DIR / "tabel_rekonsiliasi.parquet",
+        index=False,
+    )
+    rek.to_csv(
+        GOLD_DIR / "tabel_rekonsiliasi.csv",
+        index=False,
+    )
+
+    # Muat seluruh tabel ke SQLite.
+    hasil_gold = {
+        "panel": gold,
+        "nasional": nas,
+        "rekonsiliasi": rek,
+    }
+
+    ringkasan_sql = muat_sql.muat_semua(
+        silver,
+        hasil_gold,
+    )
 
     print(
-        f"Gold: {len(gold):,} baris -> "
-        f"{jalur.relative_to(ROOT)}"
+        f"Gold panel: {len(gold):,} baris"
+    )
+    print(
+        f"Gold nasional: {len(nas):,} baris"
+    )
+    print(
+        f"Gold rekonsiliasi: {len(rek):,} baris"
+    )
+    print(
+        "SQLite:",
+        ringkasan_sql,
     )
 
     print(
         "Ringkasan status:",
         gold["status_data"].value_counts().to_dict(),
     )
-
     print(
         "Jumlah indikator:",
         gold["indikator"].nunique(),
     )
 
-    return {"panel": gold}
+    return hasil_gold

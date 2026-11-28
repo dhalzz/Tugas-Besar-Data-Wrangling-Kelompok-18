@@ -1,4 +1,4 @@
-"""Validasi otomatis Silver, Gold, dan rekonsiliasi untuk Capstone Data Wrangling."""
+﻿"""Validasi otomatis Silver, Gold, dan rekonsiliasi untuk Capstone Data Wrangling."""
 
 from __future__ import annotations
 
@@ -47,6 +47,13 @@ KOLOM_GOLD = {
     "satuan",
     "_lineage_silver",
     "status_data",
+    "outlier",
+    "status_patahan",
+    "catatan_patahan",
+    "sebelum_provinsi_ada",
+    "tahun_tidak_diterbitkan",
+    "sel_kosong_dalam_terbitan",
+    "missing_sejati",
 }
 
 
@@ -345,6 +352,49 @@ def periksa_gold(
         ),
     )
 
+    # Aturan 10: penanda outlier, patahan, dan grid Gold harus valid.
+    kolom_boolean = [
+        "outlier",
+        "sebelum_provinsi_ada",
+        "tahun_tidak_diterbitkan",
+        "sel_kosong_dalam_terbitan",
+        "missing_sejati",
+    ]
+
+    pelanggaran_boolean = 0
+    for kolom in kolom_boolean:
+        if not pd.api.types.is_bool_dtype(gold[kolom]):
+            pelanggaran_boolean += len(gold)
+        else:
+            pelanggaran_boolean += int(gold[kolom].isna().sum())
+
+    status_patahan_valid = (
+        gold["status_patahan"].notna()
+        & gold["status_patahan"].astype(str).str.strip().ne("")
+    )
+    catatan_patahan_valid = (
+        gold["catatan_patahan"].notna()
+        & gold["catatan_patahan"].astype(str).str.strip().ne("")
+    )
+
+    pelanggaran_penanda = (
+        pelanggaran_boolean
+        + int((~status_patahan_valid).sum())
+        + int((~catatan_patahan_valid).sum())
+    )
+
+    tambah_hasil(
+        hasil,
+        "Penanda outlier, patahan, dan grid Gold valid",
+        pelanggaran_penanda == 0,
+        len(gold),
+        pelanggaran_penanda,
+        (
+            "Penanda outlier, patahan, dan empat penanda grid terisi dengan tipe yang valid."
+            if pelanggaran_penanda == 0
+            else f"Ditemukan {pelanggaran_penanda} pelanggaran pada penanda Gold."
+        ),
+    )
     # Aturan 9: setiap nilai Gold yang tersedia harus menaut ke Silver.
     kolom_kunci_lineage = [
         "wilayah_kode",
@@ -422,9 +472,11 @@ def periksa_rekonsiliasi(hasil: list[dict]) -> None:
     tahun, indikator, nilai_bps, nilai_wdi, selisih, kategori_selisih
     """
     kandidat = [
+        ROOT / "data" / "gold" / "tabel_rekonsiliasi.parquet",
+        ROOT / "data" / "gold" / "tabel_rekonsiliasi.csv",
         ROOT / "data" / "gold" / "rekonsiliasi.parquet",
         ROOT / "data" / "gold" / "rekonsiliasi.csv",
-    ]
+]
 
     path = next((item for item in kandidat if item.exists()), None)
 
@@ -450,6 +502,7 @@ def periksa_rekonsiliasi(hasil: list[dict]) -> None:
     kandidat_utama = ["nilai_bps", "nilai_utama", "seri_utama"]
     kandidat_pembanding = ["nilai_wdi", "nilai_pembanding", "seri_pembanding"]
     kandidat_kategori = [
+        "kategori_penjelasan",
         "kategori_selisih",
         "kategori",
         "status_rekonsiliasi",

@@ -69,22 +69,30 @@ def pilih_snapshot(df):
 
 
 def validasi_periode_tahunan(df):
-    """Pastikan Gold hanya menggunakan periode tahunan."""
-    bukan_tahunan = df["jenis_periode"] != "tahun"
-
-    if bukan_tahunan.any():
-        contoh = (
-            df.loc[bukan_tahunan, "periode"]
-            .drop_duplicates()
-            .tolist()[:5]
-        )
-
+    """
+    Pilih hanya data tahunan untuk Gold.
+    Data non-tahunan tetap dipertahankan di Silver.
+    """
+    if "jenis_periode" not in df.columns:
         raise ValueError(
-            "Gold hanya menerima periode tahunan. "
-            f"Contoh periode tidak didukung: {contoh}"
+            "Kolom jenis_periode tidak ditemukan."
         )
 
-    return df.copy()
+    periode = (
+        df["jenis_periode"]
+        .astype("string")
+        .str.strip()
+        .str.casefold()
+    )
+
+    hasil = df.loc[periode == "tahun"].copy()
+
+    if hasil.empty:
+        raise ValueError(
+            "Tidak ada data periode tahunan untuk membentuk Gold."
+        )
+
+    return hasil
 
 
 def pastikan_unik(df):
