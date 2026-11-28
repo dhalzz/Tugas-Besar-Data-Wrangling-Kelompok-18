@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-
+import json
 import pandas as pd
 import pandera.pandas as pa
 from pandera import Check
