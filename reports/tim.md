@@ -67,7 +67,7 @@ Rekonsiliasi tingkat nasional menyandingkan seri utama BPS (menggunakan baris `I
 | Pasangan | Baris berpasangan | Arah selisih | Minimum (periode; BPS vs WDI) | Maksimum (periode; BPS vs WDI) | Rata-rata selisih | Median selisih | Rata-rata \|selisih\| |
 |---|---:|---|---|---|---|---|---|
 | `listrik` | 31 | 31 negatif, 0 positif (`var87` selalu di bawah WDI) | -6,53 poin (1997; 73,77% vs 80,30%) | -0,05 poin (2020; 96,95% vs 97,00%) | -2,97 poin | -2,82 poin | 2,97 poin |
-| `bahan_bakar_bersih` | 16 | 8 negatif, 8 positif | -9,57 poin (2007; 12,43% vs 22,00%) | +5,14 poin (2001; 11,14% vs 6,00%) | -0,77 poin | -0,03 poin | 2,23 poin |
+| `bahan_bakar_bersih` | 16 | 8 negatif, 8 positif | -9,57 poin (2007; 12,43% vs 22,00%) | +5,14 poin (2001; 11,14% vs 6,00%) | -0,77 poin | -0,02 poin | 2,23 poin |
 
 - **Pasangan `listrik`:** Selisih terbesar terjadi pada awal seri (`1997`: -6,53 poin; `1994`: -5,29 poin), kemudian menyempit seiring naiknya elektrifikasi nasional menjadi -2,27 s.d. -1,47 poin pada 2021–2024 (`2021`: -1,94; `2022`: -2,27; `2023`: -1,47; `2024`: -1,66; sejalan dengan catatan `K-035`).
 - **Pasangan `bahan_bakar_bersih`:** Selisih absolut terbesar muncul pada awal seri dan transisi cepat elpiji (`2001`: +5,14 poin; `2007`: -9,57 poin; `2008`: -8,26 poin). Mulai 2009–2021, kedua seri bergerak sangat rapat dengan selisih antara -1,88 poin (`2021`) hingga +1,97 poin (`2009`), dan selisih absolut terkecil 0,23 poin pada 2016 (73,23% vs 73,00%).

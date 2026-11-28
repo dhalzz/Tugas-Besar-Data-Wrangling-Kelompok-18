@@ -10,6 +10,7 @@ KATEGORI_SAH = {
     "vintage berbeda",
     "cakupan berbeda",
     "belum terjelaskan",
+    "tidak ada pasangan",
 }
 
 RINCIAN_BAHAN_BAKAR_BERSIH = ("Listrik", "Gas/Elpiji")
@@ -29,41 +30,68 @@ KOLOM = [
 ]
 
 
-def _klasifikasi_listrik(row: pd.Series) -> tuple[str | None, str]:
+def _klasifikasi_listrik(row: pd.Series) -> tuple[str, str]:
     p = str(row["periode"])
     ada_u = pd.notna(row["nilai_utama"])
     ada_p = pd.notna(row["nilai_pembanding"])
+
     if not ada_u:
-        return None, "BPS var87 tidak menerbitkan data Indonesia pada periode ini; hanya WDI yang tersedia."
+        return (
+            "tidak ada pasangan",
+            "BPS var87 tidak menerbitkan data Indonesia pada periode ini; "
+            "hanya WDI yang tersedia."
+        )
+
     if not ada_p:
-        return None, "WDI EG.ELC.ACCS.ZS belum menerbitkan data pada periode ini; hanya BPS var87 yang tersedia."
+        return (
+            "tidak ada pasangan",
+            "WDI EG.ELC.ACCS.ZS belum menerbitkan data pada periode ini; "
+            "hanya BPS var87 yang tersedia."
+        )
+
     if p in {"2000", "2001", "2002"}:
         return (
             "cakupan berbeda",
-            "Catatan Susenas BPS: tahun 2000 tidak mencacah Aceh & Maluku, 2001 tanpa Aceh, "
-            "2002 hanya ibu kota provinsi (Aceh, Maluku, Malut, Papua); ditambah beda definisi PLN/rumah tangga vs semua listrik/penduduk.",
+            "Catatan Susenas BPS: tahun 2000 tidak mencacah Aceh & Maluku, "
+            "2001 tanpa Aceh, 2002 hanya ibu kota provinsi "
+            "(Aceh, Maluku, Malut, Papua); ditambah beda definisi "
+            "PLN/rumah tangga vs semua listrik/penduduk.",
         )
+
     return (
         "definisi berbeda",
-        "BPS var87 hanya mencakup listrik PLN dengan denominator rumah tangga (Susenas Maret), "
-        "sedangkan WDI EG.ELC.ACCS.ZS mencakup seluruh sumber listrik dengan denominator penduduk.",
+        "BPS var87 hanya mencakup listrik PLN dengan denominator rumah tangga "
+        "(Susenas Maret), sedangkan WDI EG.ELC.ACCS.ZS mencakup seluruh "
+        "sumber listrik dengan denominator penduduk.",
     )
 
 
-def _klasifikasi_bahan_bakar(row: pd.Series) -> tuple[str | None, str]:
+def _klasifikasi_bahan_bakar(row: pd.Series) -> tuple[str, str]:
     p = str(row["periode"])
     ada_u = pd.notna(row["nilai_utama"])
     ada_p = pd.notna(row["nilai_pembanding"])
+
     if not ada_u:
-        return None, "BPS sdg7_bahan_bakar tidak terbit pada periode ini (hanya terbit 2001 dan 2007-2021); hanya WDI yang tersedia."
+        return (
+            "tidak ada pasangan",
+            "BPS sdg7_bahan_bakar tidak menyediakan nilai pada periode ini, "
+            "sedangkan WDI tersedia."
+        )
+
     if not ada_p:
-        return None, "WDI EG.CFT.ACCS.ZS tidak menerbitkan data pada periode ini."
+        return (
+            "tidak ada pasangan",
+            "WDI EG.CFT.ACCS.ZS tidak menyediakan nilai pada periode ini, "
+            "sedangkan BPS tersedia."
+        )
+
     if p in {"2001", "2007", "2008"}:
         return (
             "metode berbeda",
             "Selisih besar pada awal seri dan masa transisi cepat konversi minyak tanah ke elpiji: "
             "BPS mencatat hasil survei Susenas tahunan langsung, sedangkan WDI/WHO memakai estimasi model yang dimuluskan.",
         )
+
     return (
         "definisi berbeda",
         "Agregat BPS (Listrik + Gas/Elpiji, mengecualikan minyak tanah sesuai pedoman WHO) memakai denominator rumah tangga, "
@@ -99,9 +127,11 @@ def _pasangkan(
 
 def bangun_rekonsiliasi(nasional: pd.DataFrame) -> pd.DataFrame:
     """Bangun tabel rekonsiliasi seri utama BPS vs pembanding WDI dari tabel_nasional Gold."""
+
     # Pasangan 1: var87 (listrik PLN) vs EG.ELC.ACCS.ZS
     u_listrik = nasional[nasional["seri_kode"] == "var87"].copy()
     p_listrik = nasional[nasional["seri_kode"] == "EG.ELC.ACCS.ZS"].copy()
+
     rek_listrik = _pasangkan(
         u_listrik,
         p_listrik,
@@ -111,7 +141,7 @@ def bangun_rekonsiliasi(nasional: pd.DataFrame) -> pd.DataFrame:
         klasifikator=_klasifikasi_listrik,
     )
 
-    # Pasangan 2: agregat bahan bakar bersih (Listrik + Gas/Elpiji) vs EG.CFT.ACCS.ZS
+    # Pasangan 2: agregat bahan bakar bersih vs EG.CFT.ACCS.ZS
     bb_bersih = (
         nasional[
             (nasional["seri_kode"] == "tabel:sdg7_bahan_bakar")
@@ -120,8 +150,11 @@ def bangun_rekonsiliasi(nasional: pd.DataFrame) -> pd.DataFrame:
         .groupby("periode", as_index=False)
         .agg(nilai=("nilai", "sum"), _berkas_raw=("_berkas_raw", "first"))
     )
+
     bb_bersih["nilai"] = bb_bersih["nilai"].round(4)
+
     p_bb = nasional[nasional["seri_kode"] == "EG.CFT.ACCS.ZS"].copy()
+
     rek_bb = _pasangkan(
         bb_bersih,
         p_bb,
@@ -131,11 +164,48 @@ def bangun_rekonsiliasi(nasional: pd.DataFrame) -> pd.DataFrame:
         klasifikator=_klasifikasi_bahan_bakar,
     )
 
+    # Gabungkan kedua pasangan
     rek = pd.concat([rek_listrik, rek_bb], ignore_index=True)
-    assert not rek.duplicated(["pasangan", "periode"]).any(), "kunci pasangan x periode tidak unik"
 
-    berpasangan = rek[rek["nilai_utama"].notna() & rek["nilai_pembanding"].notna()]
-    assert berpasangan["kategori_penjelasan"].isin(KATEGORI_SAH).all(), (
-        "Ada baris berpasangan tanpa kategori penjelasan yang sah"
+    # Pastikan kunci pasangan dan periode unik
+    assert not rek.duplicated(["pasangan", "periode"]).any(), (
+        "Kunci pasangan x periode tidak unik"
     )
+
+    # Ambil baris yang memiliki kedua nilai
+    berpasangan = rek[
+        rek["nilai_utama"].notna()
+        & rek["nilai_pembanding"].notna()
+    ]
+
+    # Periksa semua kategori rekonsiliasi
+    kategori_tidak_sah = rek[
+        ~rek["kategori_penjelasan"].isin(KATEGORI_SAH)
+    ]
+
+    if not kategori_tidak_sah.empty:
+        print("\nBARIS DENGAN KATEGORI TIDAK SAH:")
+        print(
+            kategori_tidak_sah[
+                [
+                    "pasangan",
+                    "periode",
+                    "nilai_utama",
+                    "nilai_pembanding",
+                    "kategori_penjelasan",
+                    "catatan",
+                ]
+            ].to_string(index=False)
+        )
+
+    # Semua baris wajib memiliki kategori yang sah
+    assert rek["kategori_penjelasan"].isin(KATEGORI_SAH).all(), (
+        "Ada baris rekonsiliasi tanpa kategori penjelasan yang sah"
+    )
+
+    # Semua baris berpasangan wajib memiliki selisih
+    assert berpasangan["selisih"].notna().all(), (
+        "Ada pasangan nilai tanpa selisih"
+    )
+
     return rek
